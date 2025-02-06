@@ -2,15 +2,22 @@ extends CharacterBody2D
 
 #const camera = preload("./camera.gd").new()
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -500.0
+const reg_speed = 300.0
+const giga_speed = 400.0
+const jump_velocity = -500.0
+
 var doubleJumpAllowed = true
-var mousePos : Vector2
-var centerPos : Vector2
-@onready var character = get_node("Player")
+#var mousePos : Vector2
+var move_duration = 0.07
+var giga_move_duration = 0.15
+var move_timer = 0.0
+var cur_speed = 0.0
+var left_right_time_held = 0.0
+var left_right_held = false
+
+@onready var character = get_node("LeftPlayer")
 
 func _physics_process(delta: float) -> void:
-	_tongue()
 	
 	# Add gravity
 	if not is_on_floor():
@@ -18,40 +25,33 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = jump_velocity
 		doubleJumpAllowed = true
 		
-	# double jump
-	if Input.is_action_just_pressed("ui_accept") and !is_on_floor():
-		if doubleJumpAllowed:
-			velocity.y = JUMP_VELOCITY
-			doubleJumpAllowed = false
-
+	#go faster if key held
 	var direction := Input.get_axis("betterLeft", "betterRight")
-	if direction:
-		velocity.x = direction * SPEED
+	if direction != 0:
+		if not left_right_held:
+				left_right_time_held = 0
+				left_right_held = true
+		left_right_time_held += delta
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		left_right_held = false
+		left_right_time_held = 0
+		
+	if direction:
+		print(move_timer)
+		if(left_right_held && left_right_time_held > 0.5):
+			#velocity.x = -direction * giga_speed
+			velocity.x = -direction * reg_speed
+			move_timer = giga_move_duration
+		else:
+			velocity.x = -direction * reg_speed
+			move_timer = move_duration
+	# continue moving for move_duration even after player releases key
+	elif move_timer > 0:
+		move_timer-= delta
+	else:
+		velocity.x = move_toward(velocity.x, 0, reg_speed)
 
 	move_and_slide()
-	
-		
-func _tongue() -> void:
-	#_draw(Vector2(1,1))
-	var leftMousePressed = false
-	var waitTime = 0.25
-	var line : Line2D
-	if(Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)):
-		leftMousePressed = true
-	if(Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)):
-		leftMousePressed = true
-	await get_tree().create_timer(waitTime).timeout
-	if(leftMousePressed == true):
-		mousePos = to_local(get_global_mouse_position())
-		centerPos = Vector2(10,10)
-		print(mousePos)
-		queue_redraw()
-		
-
-func _draw() -> void:
-	draw_line(centerPos, mousePos, Color.PINK, 8.0)
