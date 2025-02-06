@@ -1,10 +1,9 @@
 extends CharacterBody2D
 
-#const camera = preload("./camera.gd").new()
-
 const reg_speed = 300.0
 const giga_speed = 400.0
-const jump_velocity = -500.0
+const jump_velocity = -800.0
+const coyote_time = 3
 
 var doubleJumpAllowed = true
 #var mousePos : Vector2
@@ -14,6 +13,7 @@ var move_timer = 0.0
 var cur_speed = 0.0
 var left_right_time_held = 0.0
 var left_right_held = false
+var curr_coyote_time = 0
 #var leftLastHeld = false;
 
 @onready var animator = $AnimatedSprite2D
@@ -22,31 +22,40 @@ enum state {left_shoot, right_shoot}
 var current_state : state
 
 func _physics_process(delta: float) -> void:
-	#print(character[0].name)
-	#player_shoot()
-	#player_animations()
-	if(Input.is_action_just_pressed("betterLeft")):
-		current_state = state.left_shoot
-		animator.play("left_shoot")
-		print("left")
-		#leftLastHeld = true
-	if(Input.is_action_just_pressed("betterRight")):
-		current_state = state.right_shoot
-		animator.play("right_shoot")
-		print("right")
+	player_shoot(delta)
+	player_animations()
+	player_jump(delta)
+		
+	move_and_slide()
 	
+func player_jump(delta):
 	# Add gravity
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity += 2 * get_gravity() * delta
+		curr_coyote_time-=delta
+		
+	if is_on_floor():
+		curr_coyote_time = coyote_time
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") and curr_coyote_time >= 0:
 		velocity.y = jump_velocity
 		doubleJumpAllowed = true
+	
+
+func player_animations():
+	if current_state == state.left_shoot:
+		animator.play("left_shoot")
+	elif current_state == state.right_shoot:
+		animator.play("right_shoot")
+
+func player_shoot(delta):
+	if(Input.is_action_just_pressed("betterLeft")):
+		current_state = state.left_shoot
+	if(Input.is_action_just_pressed("betterRight")):
+		current_state = state.right_shoot
 		
 	var direction := Input.get_axis("betterLeft", "betterRight")
-	
-		
 	#go faster if key held
 	if direction != 0:
 		if not left_right_held:
@@ -71,14 +80,3 @@ func _physics_process(delta: float) -> void:
 		move_timer-= delta
 	else:
 		velocity.x = move_toward(velocity.x, 0, reg_speed)
-
-	move_and_slide()
-
-#func player_animations():
-	#if current_state == state.left_shoot:
-	#elif current_state == state.right_shoot:
-
-#func player_shoot():
-	#if(Input.is_action_just_pressed("shoot")):
-			#leftLastHeld = false
-	
