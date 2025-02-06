@@ -1,18 +1,41 @@
-[gd_scene load_steps=3 format=3 uid="uid://ec8btf0qmcb"]
+[gd_scene load_steps=5 format=3 uid="uid://ec8btf0qmcb"]
 
 [ext_resource type="Texture2D" uid="uid://vyi77qq7002r" path="res://left_player.png" id="1_7knb4"]
+[ext_resource type="Texture2D" uid="uid://cuyoa4fow8st" path="res://right_player.png" id="2_vg4w3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l1xbm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7knb4")
+}],
+"loop": true,
+"name": &"left_shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vg4w3")
+}],
+"loop": true,
+"name": &"right_shoot",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d7i10"]
 radius = 47.0
 height = 192.0
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(-3, -4.76837e-07)
+scale = Vector2(0.194389, 0.103771)
 
-[node name="LeftPlayer" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(67.5, -134.5)
 scale = Vector2(4.09375, 8.34375)
-texture = ExtResource("1_7knb4")
+sprite_frames = SubResource("SpriteFrames_l1xbm")
+animation = &"right_shoot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(60, -107)

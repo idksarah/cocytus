@@ -14,10 +14,17 @@ var move_timer = 0.0
 var cur_speed = 0.0
 var left_right_time_held = 0.0
 var left_right_held = false
+#var leftLastHeld = false;
 
-@onready var character = get_node("LeftPlayer")
+#@onready var character = get_node("../Player")
+
+enum state {left_shoot, right_shoot}
+var current_state : state
 
 func _physics_process(delta: float) -> void:
+	#print(character[0].name)
+	player_shoot()
+	#player_animations()
 	
 	# Add gravity
 	if not is_on_floor():
@@ -28,8 +35,10 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_velocity
 		doubleJumpAllowed = true
 		
-	#go faster if key held
 	var direction := Input.get_axis("betterLeft", "betterRight")
+	
+		
+	#go faster if key held
 	if direction != 0:
 		if not left_right_held:
 				left_right_time_held = 0
@@ -40,10 +49,10 @@ func _physics_process(delta: float) -> void:
 		left_right_time_held = 0
 		
 	if direction:
-		print(move_timer)
+		#print(move_timer)
 		if(left_right_held && left_right_time_held > 0.5):
 			#velocity.x = -direction * giga_speed
-			velocity.x = -direction * reg_speed
+			#velocity.x = -direction * reg_speed
 			move_timer = giga_move_duration
 		else:
 			velocity.x = -direction * reg_speed
@@ -55,3 +64,19 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, reg_speed)
 
 	move_and_slide()
+
+#func player_animations():
+	#if current_state == state.left_shoot:
+		#character.play("left_shoot")
+	#elif current_state == state.right_shoot:
+		#character.play("right_shoot")
+
+func player_shoot():
+	if(Input.is_action_just_pressed("shoot")):
+		if(Input.is_action_just_pressed("betterLeft")):
+			current_state = state.left_shoot
+			#leftLastHeld = true
+		if(Input.is_action_just_pressed("betterRight")):
+			current_state = state.right_shoot
+			#leftLastHeld = false
+	
