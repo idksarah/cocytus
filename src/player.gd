@@ -8,7 +8,7 @@ const jump_velocity = -500.0
 
 var doubleJumpAllowed = true
 #var mousePos : Vector2
-var move_duration = 0.07
+var move_duration = 0.1
 var giga_move_duration = 0.15
 var move_timer = 0.0
 var cur_speed = 0.0
@@ -16,15 +16,24 @@ var left_right_time_held = 0.0
 var left_right_held = false
 #var leftLastHeld = false;
 
-#@onready var character = get_node("../Player")
+@onready var animator = $AnimatedSprite2D
 
 enum state {left_shoot, right_shoot}
 var current_state : state
 
 func _physics_process(delta: float) -> void:
 	#print(character[0].name)
-	player_shoot()
+	#player_shoot()
 	#player_animations()
+	if(Input.is_action_just_pressed("betterLeft")):
+		current_state = state.left_shoot
+		animator.play("left_shoot")
+		print("left")
+		#leftLastHeld = true
+	if(Input.is_action_just_pressed("betterRight")):
+		current_state = state.right_shoot
+		animator.play("right_shoot")
+		print("right")
 	
 	# Add gravity
 	if not is_on_floor():
@@ -67,16 +76,9 @@ func _physics_process(delta: float) -> void:
 
 #func player_animations():
 	#if current_state == state.left_shoot:
-		#character.play("left_shoot")
 	#elif current_state == state.right_shoot:
-		#character.play("right_shoot")
 
-func player_shoot():
-	if(Input.is_action_just_pressed("shoot")):
-		if(Input.is_action_just_pressed("betterLeft")):
-			current_state = state.left_shoot
-			#leftLastHeld = true
-		if(Input.is_action_just_pressed("betterRight")):
-			current_state = state.right_shoot
+#func player_shoot():
+	#if(Input.is_action_just_pressed("shoot")):
 			#leftLastHeld = false
 	
