@@ -3,7 +3,7 @@ extends CharacterBody2D
 const reg_speed = 300.0
 const giga_speed = 400.0
 const jump_velocity = -800.0
-const coyote_time = 3
+const coyote_time = 0.2
 
 var doubleJumpAllowed = true
 #var mousePos : Vector2
