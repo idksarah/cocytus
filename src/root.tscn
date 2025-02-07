@@ -38,10 +38,10 @@ tile_map_data = PackedByteArray("AAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAA
 tile_set = SubResource("TileSet_uobf8")
 
 [node name="bullet" parent="." instance=ExtResource("4_5l3de")]
-position = Vector2(-360.909, -125.875)
+position = Vector2(-349.962, -161.469)
 
 [node name="Player" parent="." instance=ExtResource("3_1dcmy")]
-position = Vector2(-161.661, -131.699)
+position = Vector2(-511.258, -137.2)
 script = ExtResource("3_6gl30")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
