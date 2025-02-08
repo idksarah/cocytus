@@ -6,7 +6,8 @@ const jump_velocity = -800.0
 const coyote_time = 0.2
 
 var doubleJumpAllowed = true
-#var mousePos : Vector2
+var mousePos : Vector2
+var charPos : Vector2
 var move_duration = 0.1
 var giga_move_duration = 0.15
 var move_timer = 0.0
@@ -14,6 +15,8 @@ var cur_speed = 0.0
 var left_right_time_held = 0.0
 var left_right_held = false
 var curr_coyote_time = 0
+var x_tolerance = 100
+var y_tolerance = 100
 #var leftLastHeld = false;
 
 @onready var animator = $AnimatedSprite2D
@@ -23,9 +26,9 @@ var current_state : state
 
 func _physics_process(delta: float) -> void:
 	player_init(delta)
-	player_shoot(delta)
+	track_mouse(delta)
+	#player_shoot(delta)
 	player_animations()
-	#player_jump(delta)
 		
 	move_and_slide()
 	
@@ -33,48 +36,59 @@ func player_init(delta):
 	# Add gravity
 	if not is_on_floor():
 		velocity += 2 * get_gravity() * delta
-		curr_coyote_time-=delta
-
-func player_jump(delta):
-	if is_on_floor():
-		curr_coyote_time = coyote_time
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and curr_coyote_time >= 0:
-		velocity.y = jump_velocity
-		doubleJumpAllowed = true
 
 func player_animations():
 	if current_state == state.left_shoot:
 		animator.play("left_shoot")
 	elif current_state == state.right_shoot:
 		animator.play("right_shoot")
-	#if current_state == state.down_shoot:
-		#print("bleh")
+
+func track_mouse(delta):
+	mousePos = get_global_mouse_position()
+	charPos = global_position
+	print(mousePos)
+	print(charPos)
+	if(mousePos.x < charPos.x && abs(mousePos.x - charPos.x) > x_tolerance):
+		if(mousePos.y < charPos.y - y_tolerance ):
+			current_state = state.left_down_shoot
+			print("left up")
+		elif(mousePos.y > charPos.y + y_tolerance):
+			current_state = state.left_up_shoot
+			print("left down")
+		else:
+			current_state = state.left_shoot
+			print("left")
+	elif(mousePos.x > charPos.x && abs(mousePos.x - charPos.x) > x_tolerance):
+		if(mousePos.y < charPos.y- y_tolerance):
+			current_state = state.right_down_shoot
+			print("right up")
+		elif(mousePos.y > charPos.y + y_tolerance):
+			current_state = state.right_up_shoot
+			print("right down")
+		else:
+			current_state = state.right_shoot
+			print("right")
+	else:
+		if(mousePos.y < charPos.y- y_tolerance):
+			current_state = state.right_down_shoot
+			print("up")
+		elif(mousePos.y > charPos.y + y_tolerance):
+			current_state = state.right_up_shoot
+			print("down")
+	
+	if(Input.is_action_just_pressed("shoot")):
+		player_shoot(delta)
+	# continue moving for move_duration even after player releases key
+	elif move_timer > 0:
+		move_timer-= delta
+	else:
+		velocity.x = move_toward(velocity.x, 0, reg_speed)
 
 func player_shoot(delta):
-	if(Input.is_action_just_pressed("better_left")):
-		current_state = state.left_shoot
-	elif(Input.is_action_just_pressed("better_right")):
-		current_state = state.right_shoot
-	elif(Input.is_action_just_pressed("better_down")):
-		current_state = state.down_shoot
-	elif(Input.is_action_just_pressed("better_up")):
-		current_state = state.up_shoot
 		
 	var x_direction := Input.get_axis("better_left", "better_right")
 	var y_direction := Input.get_axis("better_down", "better_up")
 	
-	##go faster if key held
-	#if x_direction != 0:
-		#if not left_right_held:
-				#left_right_time_held = 0
-				#left_right_held = true
-		#left_right_time_held += delta
-	#else:
-		#left_right_held = false
-		#left_right_time_held = 0
-		
 	if(Input.is_action_just_pressed("shoot")):
 		if(current_state == state.left_shoot):
 			x_direction = 1
@@ -94,15 +108,10 @@ func player_shoot(delta):
 		
 		move_timer = move_duration
 		
-		print(left_right_time_held)
 		#if(x_direction != 0 && left_right_time_held > 0.5):
 			#velocity.x = x_direction * giga_speed
 			##velocity.x = -direction * reg_speed
 			##move_timer += delta
 		##else:
 			#velocity.x = x_direction * reg_speed
-	# continue moving for move_duration even after player releases key
-	elif move_timer > 0:
-		move_timer-= delta
-	else:
-		velocity.x = move_toward(velocity.x, 0, reg_speed)
+			

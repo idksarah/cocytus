@@ -40,10 +40,10 @@ tile_set = SubResource("TileSet_uobf8")
 [node name="bullet" parent="." instance=ExtResource("4_5l3de")]
 position = Vector2(-349.962, -161.469)
 
-[node name="Player" parent="." instance=ExtResource("3_1dcmy")]
+[node name="player" parent="." instance=ExtResource("3_1dcmy")]
 position = Vector2(-511.258, -137.2)
 script = ExtResource("3_6gl30")
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="player"]
 position = Vector2(-424.267, -130.968)
 scale = Vector2(1.76836, 1.27987)
