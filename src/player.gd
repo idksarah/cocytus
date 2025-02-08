@@ -15,8 +15,13 @@ var cur_speed = 0.0
 var left_right_time_held = 0.0
 var left_right_held = false
 var curr_coyote_time = 0
-var x_tolerance = 100
-var y_tolerance = 100
+
+var x_tolerance = 30
+var y_tolerance = 40
+var x_direction_multiplier = 0.015
+var y_direction_multiplier = 0.015
+var max_x_direction = 3
+var max_y_direction = 2.5
 #var leftLastHeld = false;
 
 @onready var animator = $AnimatedSprite2D
@@ -46,35 +51,35 @@ func player_animations():
 func track_mouse(delta):
 	mousePos = get_global_mouse_position()
 	charPos = global_position
-	print(mousePos)
-	print(charPos)
+	#print(mousePos)
+	#print(charPos)
 	if(mousePos.x < charPos.x && abs(mousePos.x - charPos.x) > x_tolerance):
 		if(mousePos.y < charPos.y - y_tolerance ):
 			current_state = state.left_down_shoot
-			print("left up")
+			#print("left up")
 		elif(mousePos.y > charPos.y + y_tolerance):
 			current_state = state.left_up_shoot
-			print("left down")
+			#print("left down")
 		else:
 			current_state = state.left_shoot
-			print("left")
+			#print("left")
 	elif(mousePos.x > charPos.x && abs(mousePos.x - charPos.x) > x_tolerance):
-		if(mousePos.y < charPos.y- y_tolerance):
+		if(mousePos.y < charPos.y - y_tolerance):
 			current_state = state.right_down_shoot
-			print("right up")
+			#print("right up")
 		elif(mousePos.y > charPos.y + y_tolerance):
 			current_state = state.right_up_shoot
-			print("right down")
+			#print("right down")
 		else:
 			current_state = state.right_shoot
-			print("right")
+			#print("right")
 	else:
-		if(mousePos.y < charPos.y- y_tolerance):
+		if(mousePos.y < charPos.y - y_tolerance):
 			current_state = state.right_down_shoot
-			print("up")
+			#print("up")
 		elif(mousePos.y > charPos.y + y_tolerance):
 			current_state = state.right_up_shoot
-			print("down")
+			#print("down")
 	
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
@@ -90,28 +95,13 @@ func player_shoot(delta):
 	var y_direction := Input.get_axis("better_down", "better_up")
 	
 	if(Input.is_action_just_pressed("shoot")):
-		if(current_state == state.left_shoot):
-			x_direction = 1
-			y_direction = 0
-		elif(current_state == state.right_shoot):
-			x_direction = -1
-			y_direction = 0
-		elif(current_state == state.down_shoot):
-			x_direction = 0
-			y_direction = 1
-		elif(current_state == state.up_shoot):
-			x_direction = 0
-			y_direction = -1
+		x_direction = -(mousePos.x - charPos.x) * x_direction_multiplier
+		y_direction = -(mousePos.y - charPos.y) * y_direction_multiplier
 			
+		x_direction = clamp(x_direction, -max_x_direction, max_x_direction)
+		y_direction = clamp(y_direction, -max_y_direction, max_y_direction)
+		
 		velocity.x = x_direction * reg_speed
-		velocity.y = y_direction * 1.7 * reg_speed
-		
+		velocity.y = y_direction * reg_speed
 		move_timer = move_duration
-		
-		#if(x_direction != 0 && left_right_time_held > 0.5):
-			#velocity.x = x_direction * giga_speed
-			##velocity.x = -direction * reg_speed
-			##move_timer += delta
-		##else:
-			#velocity.x = x_direction * reg_speed
 			
