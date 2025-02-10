@@ -1,16 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://ec8btf0qmcb"]
+[gd_scene load_steps=8 format=3 uid="uid://ec8btf0qmcb"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y81mg"]
-load_path = "res://.godot/imported/left_player.png-f6e83e2a4b13f4cf4b66b41c5d73c77f.ctex"
+[ext_resource type="Texture2D" uid="uid://cwfg676gpp1wp" path="res://down_player.png" id="1_j1ywd"]
+[ext_resource type="Texture2D" uid="uid://bspeb4gmk6xrp" path="res://left_player.png" id="2_18uit"]
+[ext_resource type="Texture2D" uid="uid://cjdcpsl2is6w4" path="res://player.png" id="3_g827n"]
+[ext_resource type="Texture2D" uid="uid://cx3f36r7mmn7b" path="res://up_player.png" id="4_8s426"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c080x"]
-load_path = "res://.godot/imported/right_player.png-008faa12bca391f146eee6e20d09771e.ctex"
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cnxw"]
+atlas = ExtResource("3_g827n")
+region = Rect2(0, 32, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_l1xbm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_y81mg")
+"texture": ExtResource("1_j1ywd")
+}],
+"loop": true,
+"name": &"down_shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_18uit")
 }],
 "loop": true,
 "name": &"left_shoot",
@@ -18,28 +29,34 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_c080x")
+"texture": SubResource("AtlasTexture_0cnxw")
 }],
 "loop": true,
 "name": &"right_shoot",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_8s426")
+}],
+"loop": true,
+"name": &"up_shoot",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d7i10"]
-radius = 61.7319
-height = 231.279
+radius = 33.2333
+height = 192.732
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(-3, -4.76837e-07)
-scale = Vector2(0.194389, 0.103771)
+scale = Vector2(0.240722, 0.127646)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(53.6392, -134.5)
-scale = Vector2(4.96005, 8.34375)
+position = Vector2(-1.90735e-06, 9.19018e-06)
+scale = Vector2(4.17976, 6.62517)
 sprite_frames = SubResource("SpriteFrames_l1xbm")
-animation = &"right_shoot"
+animation = &"up_shoot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(51.4433, -134.913)
 shape = SubResource("CapsuleShape2D_d7i10")
