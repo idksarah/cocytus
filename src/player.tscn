@@ -48,7 +48,7 @@ animations = [{
 radius = 33.2333
 height = 192.732
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 scale = Vector2(0.240722, 0.127646)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -56,7 +56,10 @@ texture_filter = 1
 position = Vector2(-1.90735e-06, 9.19018e-06)
 scale = Vector2(4.17976, 6.62517)
 sprite_frames = SubResource("SpriteFrames_l1xbm")
-animation = &"up_shoot"
+animation = &"right_shoot"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_d7i10")
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2(45.6959, 0)

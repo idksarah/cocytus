@@ -22,10 +22,10 @@ var move_timer = 0.0
 
 var x_tolerance = 30
 var y_tolerance = 40
-var x_direction_multiplier = 0.015
-var y_direction_multiplier = 0.015
-var max_x_direction = 3
-var max_y_direction = 2.5
+var x_direction_multiplier = 0.02
+var y_direction_multiplier = 0.02
+var max_x_direction = 4
+var max_y_direction = 3
 
 enum state {left_shoot, right_shoot, down_shoot, up_shoot, left_down_shoot, left_up_shoot, right_down_shoot, right_up_shoot}
 var current_state : state
@@ -97,13 +97,10 @@ func player_shoot(delta):
 	var y_direction := Input.get_axis("better_down", "better_up")
 	
 	if(is_on_floor() || cur_bullets_shot < max_bullets_shot):
-		var bullet_instance = bullet.instantiate() as Node2D
-		bullet_instance.global_position = animator.global_position
-		get_parent().add_child(bullet_instance)
 		
 		x_direction = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
 		y_direction = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
-			
+		
 		x_direction = clamp(x_direction, -max_x_direction, max_x_direction)
 		y_direction = clamp(y_direction, -max_y_direction, max_y_direction)
 		
@@ -113,4 +110,12 @@ func player_shoot(delta):
 		
 		if not is_on_floor():
 			cur_bullets_shot+=1
+		
+		await get_tree().create_timer(.2).timeout
+		
+		var bullet_instance = bullet.instantiate() as Node2D
+		bullet_instance.pos = animator.global_position
+		bullet_instance.x_vector = -x_direction
+		bullet_instance.y_vector = -y_direction
+		get_parent().add_child(bullet_instance)
 		
