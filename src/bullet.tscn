@@ -19,6 +19,7 @@ texture = ExtResource("1_n1u3d")
 shape = SubResource("RectangleShape2D_66nro")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
 one_shot = true
 autostart = true
 

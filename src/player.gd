@@ -17,6 +17,7 @@ var giga_move_duration = 0.15
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 2
+var still_shoot = false
 
 var move_timer = 0.0
 
@@ -26,6 +27,8 @@ var x_direction_multiplier = 0.02
 var y_direction_multiplier = 0.02
 var max_x_direction = 4
 var max_y_direction = 3
+var bullet_x_offset = 10
+var bullet_y_offset = 10
 
 enum state {left_shoot, right_shoot, down_shoot, up_shoot, left_down_shoot, left_up_shoot, right_down_shoot, right_up_shoot}
 var current_state : state
@@ -82,10 +85,11 @@ func track_mouse(delta):
 			#print("down")
 	
 	if(Input.is_action_just_pressed("shoot")):
-		if(is_on_floor()):
-			cur_bullets_shot = 0
+		still_shoot = false
 		player_shoot(delta)
-		
+	elif (Input.is_action_just_pressed("still_shoot")):
+		still_shoot = true
+		player_shoot(delta)
 	# continue moving for move_duration even after player releases key
 	elif move_timer > 0:
 		move_timer-= delta
@@ -93,6 +97,9 @@ func track_mouse(delta):
 		velocity.x = move_toward(velocity.x, 0, reg_speed)
 
 func player_shoot(delta):
+	print(still_shoot)
+	if(is_on_floor()):
+		cur_bullets_shot = 0
 	var x_direction := Input.get_axis("better_left", "better_right")
 	var y_direction := Input.get_axis("better_down", "better_up")
 	
@@ -115,7 +122,15 @@ func player_shoot(delta):
 		
 		var bullet_instance = bullet.instantiate() as Node2D
 		bullet_instance.pos = animator.global_position
+		if x_direction > 0:
+			bullet_instance.x_pos_offset *= -1
+		if y_direction > 0:
+			bullet_instance.y_pos_offset *= -1
 		bullet_instance.x_vector = -x_direction
 		bullet_instance.y_vector = -y_direction
 		get_parent().add_child(bullet_instance)
+		
+		if still_shoot:
+			bullet_instance.still_shoot = true
+			bullet_instance.velocity = Vector2(0,0)
 		
