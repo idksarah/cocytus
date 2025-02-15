@@ -22,9 +22,12 @@ func _ready() -> void:
 		timer.wait_time = reg_timer
 	global_position = Vector2(pos.x + x_pos_offset, pos.y + y_pos_offset)
 	print(timer.wait_time)
+	timer.timeout.connect(_on_timer_timeout)
+	timer.start()
+	
 	
 func _process(delta: float) -> void:
-	print(still_shoot)
+	#print(still_shoot)
 	pass
 	
 func _on_timer_timeout():

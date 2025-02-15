@@ -128,9 +128,12 @@ func player_shoot(delta):
 			bullet_instance.y_pos_offset *= -1
 		bullet_instance.x_vector = -x_direction
 		bullet_instance.y_vector = -y_direction
-		get_parent().add_child(bullet_instance)
-		
 		if still_shoot:
 			bullet_instance.still_shoot = true
+			get_parent().add_child(bullet_instance)
+			await get_tree().create_timer(.2).timeout
 			bullet_instance.velocity = Vector2(0,0)
+		else:
+			get_parent().add_child(bullet_instance)
+		
 		
