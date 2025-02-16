@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://bullet.gd" id="2_s1rq3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66nro"]
-size = Vector2(5, 2.5)
+size = Vector2(6, 3.25)
 
 [node name="Bullet" type="CharacterBody2D"]
 script = ExtResource("2_s1rq3")
@@ -16,9 +16,16 @@ scale = Vector2(1.46875, 1.03125)
 texture = ExtResource("1_n1u3d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.375)
 shape = SubResource("RectangleShape2D_66nro")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="StopTimer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[connection signal="child_entered_tree" from="CollisionShape2D" to="." method="_on_collision_shape_2d_child_entered_tree"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="StopTimer" to="." method="_on_stop_timer_timeout"]
