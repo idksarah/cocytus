@@ -13,6 +13,7 @@ texture = ExtResource("1_fk5nq")
 2:0/0 = 0
 0:0/size_in_atlas = Vector2i(2, 2)
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16.0685, 4.23785, -14.8582, 1.49831, -10.6829, 12.8018, -6.24294, 0.374577, 4.2452, 17.2305, 11.6119, -2.1226, 15.9819, 3.99549, 16.1068, -16.1068, -15.8919, -16.2451)
 4:0/size_in_atlas = Vector2i(2, 2)
 4:0/0 = 0
 6:0/size_in_atlas = Vector2i(2, 2)
@@ -27,7 +28,7 @@ texture = ExtResource("1_fk5nq")
 0:2/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_siylq"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 0
 sources/2 = SubResource("TileSetAtlasSource_nrjij")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1lou"]
