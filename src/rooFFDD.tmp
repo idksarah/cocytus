@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=4 uid="uid://dgb4lk3dxdk21"]
+
+[ext_resource type="Texture2D" uid="uid://b2n2cy0mtruax" path="res://Sprite-0005.png" id="1_elcsv"]
+[ext_resource type="PackedScene" uid="uid://yhsfjt0hmoqs" path="res://icon.tscn" id="2_cbyf0"]
+[ext_resource type="PackedScene" uid="uid://ec8btf0qmcb" path="res://player.tscn" id="3_1dcmy"]
+[ext_resource type="Script" path="res://player.gd" id="4_5psmi"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omojw"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yvlk7"]
+texture = ExtResource("1_elcsv")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-0.706309, 0.176577, 8, -0.176578, 8, 8, 8, 4.6793, -1.05946, 4.6793)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 0, 3.0901, 0.176577, 4.23785, 2.11893, 8, 4.6793, -8, 5.12074)
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_uobf8"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/physics_material = SubResource("PhysicsMaterial_omojw")
+sources/0 = SubResource("TileSetAtlasSource_yvlk7")
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(449, 359)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+texture_filter = 1
+tile_map_data = PackedByteArray("AAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAABAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wIAAAAAAAAAAAD+/wMAAAAAAAAAAAD//wMAAAAAAAAAAAAAAAMAAAAAAAAAAAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAD+/wEAAAABAAAAAAD//wAAAAABAAAAAAAAAAAAAAABAAAAAAABAAAAAAABAAAAAAACAAAAAAABAAAAAAADAAEAAAABAAAAAAADAAIAAAABAAAAAAAAAP//AAAAAAIAAAABAP//AAABAAIAAAAAAP7/AAAAAAEAAAAJAAQAAAACAAAAAAAOAAcAAAACAAAAAAASAAIAAAACAAAAAAAWAP7/AAACAAAAAAAQAPz/AAACAAAAAAAKAAQAAAADAAAAAAAPAAcAAAADAAAAAAATAAIAAAADAAAAAAAXAP7/AAADAAAAAAARAPz/AAADAAAAAAANAPP/AAACAAAAAAAOAPP/AAADAAAAAAAJAPD/AAAAAAAAAAAKAPD/AAAAAAAAAAALAPD/AAAAAAAAAAAJAO//AAABAAAAAAAKAO//AAABAAAAAAAIAPD/AAABAAAAAAAJAPH/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_uobf8")
+
+[node name="Icon" parent="." instance=ExtResource("2_cbyf0")]
+
+[node name="CharacterBody2D" parent="Icon" instance=ExtResource("3_1dcmy")]
+position = Vector2(-142.545, 365.177)
+script = ExtResource("4_5psmi")
