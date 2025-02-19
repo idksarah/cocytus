@@ -1,49 +1,79 @@
 [gd_scene load_steps=10 format=4 uid="uid://dgb4lk3dxdk21"]
 
-[ext_resource type="Texture2D" uid="uid://ck3682g3b7oye" path="res://cocytus_ice.png" id="1_fk5nq"]
 [ext_resource type="PackedScene" uid="uid://ec8btf0qmcb" path="res://player.tscn" id="3_1dcmy"]
 [ext_resource type="Script" path="res://player.gd" id="3_6gl30"]
 [ext_resource type="PackedScene" uid="uid://tfcfwkxesudo" path="res://Bullet.tscn" id="4_5l3de"]
 [ext_resource type="Script" path="res://death_zone.gd" id="5_d80af"]
+[ext_resource type="Texture2D" uid="uid://ck3682g3b7oye" path="res://cocytus_ice.png" id="6_gde1s"]
 [ext_resource type="PackedScene" uid="uid://c3x21wwy8vbh8" path="res://check_point.tscn" id="6_in0pg"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nrjij"]
-texture = ExtResource("1_fk5nq")
-2:0/size_in_atlas = Vector2i(2, 2)
-2:0/0 = 0
-0:0/size_in_atlas = Vector2i(2, 2)
-0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16.0685, 4.23785, -14.8582, 1.49831, -10.6829, 12.8018, -6.24294, 0.374577, 4.2452, 17.2305, 11.6119, -2.1226, 15.9819, 3.99549, 16.1068, -16.1068, -15.8919, -16.2451)
-4:0/size_in_atlas = Vector2i(2, 2)
-4:0/0 = 0
-6:0/size_in_atlas = Vector2i(2, 2)
-6:0/0 = 0
-6:2/size_in_atlas = Vector2i(2, 2)
-6:2/0 = 0
-4:2/size_in_atlas = Vector2i(2, 2)
-4:2/0 = 0
-2:2/size_in_atlas = Vector2i(2, 2)
-2:2/0 = 0
-0:2/size_in_atlas = Vector2i(2, 2)
-0:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_siylq"]
-physics_layer_0/collision_layer = 0
-sources/2 = SubResource("TileSetAtlasSource_nrjij")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1lou"]
 size = Vector2(1483.78, 20)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ojeaa"]
+texture = ExtResource("6_gde1s")
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+4:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:3/0 = 0
+5:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:4/0 = 0
+0:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:4/0 = 0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:4/0 = 0
+3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:4/0 = 0
+4:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:4/0 = 0
+5:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:5/0 = 0
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 5.29731, -5.20903, 1.67748, 0.264866, 8, 3.79641, 1.94235, 5.65047, 6.88651, 8, 3.8847, 8, -8, -8, -8)
+
+[sub_resource type="TileSet" id="TileSet_45rau"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_ojeaa")
+
 [node name="root" type="Node2D"]
 position = Vector2(312, 248)
 scale = Vector2(2.7403, 3.09037)
-
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-texture_filter = 1
-position = Vector2(-81.7605, -144.162)
-scale = Vector2(0.75, 0.72)
-tile_map_data = PackedByteArray("AAAJAAQAAgAEAAIAAAD+/wMAAgAAAAIAAAAAAAMAAgAAAAIAAAACAAMAAgAAAAIAAAAEAAMAAgAAAAIAAAAGAAIAAgAAAAIAAAAHAAIAAgAAAAIAAAAJAAIAAgAAAAIAAAARAAYAAgAAAAIAAAATAAYAAgAAAAIAAAAUAAYAAgAAAAIAAAAVAAYAAgAAAAIAAAAXAAYAAgAAAAIAAAAVAAUAAgAAAAIAAAAXAAUAAgAAAAIAAAAZAAYAAgAEAAIAAAAZAAUAAgAEAAIAAAARAAcAAgACAAIAAAAZAAcAAgAEAAIAAAAXAPb/AgAAAAAAAAAZAPb/AgAAAAAAAAAbAPX/AgAAAAAAAAAdAPT/AgAAAAAAAAAVAPX/AgAGAAIAAAATAPX/AgAGAAIAAAARAPX/AgAGAAIAAAAQAPX/AgAGAAIAAAAOAPX/AgAGAAIAAAAMAPX/AgAGAAIAAAAKAPP/AgACAAIAAAAeAAAAAgAAAAIAAAAgAAAAAgAAAAIAAAAiAAAAAgAAAAIAAAAkAAAAAgAAAAIAAAAqAP3/AgAAAAIAAAAoAP3/AgAAAAIAAAAvAAkAAgAAAAIAAAAyAAkAAgAAAAIAAAAxAAkAAgAAAAIAAAAzAAkAAgAAAAIAAAA0AAkAAgAAAAIAAAA1AAkAAgAAAAIAAAA3AAkAAgAAAAIAAAA5AAkAAgAAAAIAAAA/AAkAAgACAAIAAAA/AAcAAgACAAIAAAA/AAUAAgACAAIAAABBAAMAAgAAAAIAAABDAAMAAgAAAAIAAABFAAMAAgAAAAIAAABHAAUAAgAEAAIAAABHAAcAAgAEAAIAAABHAAoAAgAEAAIAAABHAAkAAgAEAAIAAABHAAgAAgAEAAIAAABOAAoAAgAAAAIAAABQAAoAAgAAAAIAAAAfAPT/AgAAAAAAAAAhAPT/AgAAAAAAAAAoAPT/AgAAAAAAAAArAPT/AgAAAAAAAAAqAPT/AgAAAAAAAABVAPj/AgAAAAAAAABTAPf/AgAAAAAAAABQAPb/AgAAAAAAAABRAPb/AgAAAAAAAABSAPb/AgAAAAAAAABXAPf/AgAAAAAAAABZAPf/AgAAAAAAAABbAPf/AgAAAAAAAABdAPf/AgAAAAAAAAA=")
-tile_set = SubResource("TileSet_siylq")
 
 [node name="Bullet" parent="." instance=ExtResource("4_5l3de")]
 position = Vector2(-104.003, -130.729)
@@ -69,5 +99,10 @@ position = Vector2(-286.1, -155.968)
 
 [node name="Check_point" parent="Check_point_manager" instance=ExtResource("6_in0pg")]
 position = Vector2(187.936, 39.8007)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(-113.856, -80.5729)
+tile_map_data = PackedByteArray("AAACAP7/AAADAAQAAAAAAP7/AAABAAEAAAABAP7/AAAEAAAAAAAFAP3/AAAEAAAAAAAGAP3/AAAEAAAAAAAHAP3/AAABAAIAAAAIAP3/AAABAAIAAAAEAP3/AAAEAAEAAAADAP7/AAADAAQAAAAEAP7/AAADAAIAAAABAP//AAAFAAIAAAAAAP//AAADAAIAAAACAP//AAAFAAIAAAAGAP7/AAABAAMAAAAHAP7/AAABAAMAAAAIAP7/AAAFAAMAAAAFAP7/AAABAAMAAAADAP//AAABAAMAAAAIAP//AAAAAAEAAAAIAAAAAAAAAAEAAAAIAAEAAAAFAAMAAAANAAEAAAAEAAEAAAANAAIAAAAEAAEAAAAQAAEAAAAEAAEAAAARAAEAAAAEAAEAAAASAAEAAAAEAAEAAAATAAEAAAACAAIAAAAQAAAAAAAEAAEAAAARAAAAAAAEAAEAAAASAAAAAAAEAAEAAAATAAAAAAAEAAEAAAAUAAAAAAAEAAEAAAAUAAEAAAAEAAEAAAAUAAIAAAAEAAEAAAAWAP3/AAAEAAQAAAAXAP3/AAAEAAQAAAAYAP3/AAAEAAQAAAAZAP3/AAAEAAQAAAAaAP3/AAAEAAQAAAAbAP3/AAAEAAQAAAAcAP3/AAAEAAQAAAAfAPv/AAAEAAQAAAAgAPv/AAAEAAQAAAAhAPv/AAAEAAQAAAAmAAUAAAAEAAEAAAAnAAUAAAADAAQAAAAoAAUAAAABAAEAAAApAAUAAAAEAAAAAAAqAAUAAAAEAAAAAAArAAUAAAAEAAEAAAAsAAUAAAADAAQAAAAtAAUAAAADAAQAAAAuAAUAAAABAAEAAAAvAAUAAAABAAIAAAAyAAEAAAAEAAEAAAAyAAIAAAAEAAEAAAAyAAMAAAAEAAEAAAAyAAQAAAAEAAEAAAAyAAUAAAAEAAEAAAAzAAAAAAAEAAEAAAA0AAAAAAAEAAEAAAA1AAAAAAAEAAEAAAA2AAAAAAAEAAEAAAA3AAAAAAABAAIAAAAoAPb/AAAAAAAAAAApAPb/AAAAAAAAAAAqAPb/AAAAAAAAAAAnAPb/AAAAAAAAAAAmAPb/AAAAAAAAAAAYAPb/AAAAAAAAAAAWAPb/AAAAAAAAAAAXAPb/AAAAAAAAAAAUAPb/AAAAAAAAAAAVAPb/AAAAAAAAAAA3AAEAAAAAAAIAAAA3AAIAAAAAAAIAAAA3AAMAAAAAAAIAAAA3AAQAAAAAAAIAAAA3AAUAAAAAAAIAAAAPAAEAAAADAAQAAAAOAAEAAAADAAQAAAAcAP7/AAACAAIAAAATAAIAAAACAAIAAAAnAAYAAAACAAIAAAAoAAYAAAADAAIAAAApAAYAAAADAAIAAAAqAAYAAAADAAIAAAArAAYAAAAFAAIAAAAsAAYAAAADAAIAAAAtAAYAAAADAAIAAAAuAAYAAAAFAAIAAAAvAAYAAAAAAAIAAAAvAAcAAAAAAAIAAAAmAAYAAAAFAAEAAAAmAAcAAAAFAAEAAAAzAAEAAAACAAIAAAA0AAEAAAACAAIAAAA1AAEAAAACAAIAAAA2AAEAAAACAAIAAAA2AAIAAAACAAIAAAA2AAMAAAACAAIAAAA2AAQAAAACAAIAAAA2AAUAAAACAAIAAAAzAAIAAAACAAIAAAAzAAMAAAACAAIAAAAzAAQAAAACAAIAAAAzAAUAAAACAAIAAAAzAAYAAAACAAIAAAAzAAcAAAACAAIAAAA2AAYAAAACAAIAAAA2AAcAAAACAAIAAAA3AAYAAAAAAAIAAAA3AAcAAAAAAAIAAAAyAAYAAAAFAAEAAAAyAAcAAAAFAAEAAAAyAAAAAAAEAAEAAAA=")
+tile_set = SubResource("TileSet_45rau")
 
 [connection signal="body_entered" from="Death_zone" to="Death_zone" method="_on_body_entered"]
