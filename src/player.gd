@@ -15,8 +15,7 @@ var move_duration = 0.1
 var giga_move_duration = 0.15
 
 var cur_bullets_shot = 0
-var max_bullets_shot = 2
-var still_shoot = false
+var max_bullets_shot = 1
 
 var move_timer = 0.0
 
@@ -24,11 +23,10 @@ var x_tolerance = 30
 var y_tolerance = 40
 var x_direction_multiplier = 0.02
 var y_direction_multiplier = 0.02
-var max_x_direction = 4
-var max_y_direction = 3
+var max_x_direction = 3.5
+var max_y_direction = 2.5
 var bullet_x_offset = 10
 var bullet_y_offset = 10
-
 
 var player_x_direction := Input.get_axis("better_left", "better_right")
 var player_y_direction := Input.get_axis("better_down", "better_up")
@@ -41,10 +39,15 @@ func _physics_process(delta: float) -> void:
 	track_mouse(delta)
 	player_animations()
 	move_and_slide()
+	restart()
 	
 func init(delta):
 	if not is_on_floor():
 		velocity += 2 * get_gravity() * delta
+
+func restart():
+	if(Input.is_action_just_pressed("restart")):
+		get_parent().get_node("Death_zone").killPlayer()
 
 func player_animations():
 	if current_state == state.left_shoot || current_state == state.left_up_shoot || current_state == state.left_down_shoot:
@@ -88,10 +91,6 @@ func track_mouse(delta):
 			#print("down")
 	
 	if(Input.is_action_just_pressed("shoot")):
-		still_shoot = false
-		player_shoot(delta)
-	elif (Input.is_action_just_pressed("still_shoot")):
-		still_shoot = true
 		player_shoot(delta)
 		
 	# continue moving for move_duration even after player releases key
@@ -104,7 +103,6 @@ func player_shoot(delta):
 	if(is_on_floor()):
 		cur_bullets_shot = 0
 		
-	
 	if(is_on_floor() || cur_bullets_shot < max_bullets_shot):
 		player_x_direction = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
 		player_y_direction = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
@@ -132,9 +130,6 @@ func player_shoot(delta):
 			bullet_instance.y_pos_offset *= -1
 		bullet_instance.x_vector = -player_x_direction
 		bullet_instance.y_vector = -player_y_direction
-		
-		if still_shoot:
-			bullet_instance.still_shoot = true
 			
 		get_parent().add_child(bullet_instance)
 		

@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://p25guqyfd63x"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_gnjud"]
+[ext_resource type="Texture2D" uid="uid://crsglayyydje" path="res://bingo.jpg" id="2_8gla4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fltii"]
+size = Vector2(32.8938, 32.1915)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(1, -2)
+script = ExtResource("1_gnjud")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(-25, 2)
+scale = Vector2(0.72962, 0.737772)
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(34.2644, -2.71086)
+scale = Vector2(1.37058, 1.35543)
+
+[node name="Bingo" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(32.8938, -1.35543)
+scale = Vector2(0.0428305, 0.0441989)
+texture = ExtResource("2_8gla4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(32.8938, -1.186)
+shape = SubResource("RectangleShape2D_fltii")
+
+[connection signal="tree_entered" from="RigidBody2D/CollisionShape2D" to="." method="_on_collision_shape_2d_tree_entered"]
