@@ -4,7 +4,7 @@ extends Camera2D
 const SCREEN_SIZE := Vector2( 1800, 1000 )
 var cur_screen := Vector2( 0, 0 )
 
-#var down_offset = 300
+var down_offset = 300
 
 func _ready():
 	set_as_top_level( true )
@@ -19,4 +19,4 @@ func _physics_process(delta):
 func _update_screen( new_screen : Vector2 ):
 	cur_screen = new_screen
 	global_position = cur_screen * SCREEN_SIZE + SCREEN_SIZE * 0.5
-	#global_position.y += down_offset
+	global_position.y += down_offset

@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=4 uid="uid://dgb4lk3dxdk21"]
+[gd_scene load_steps=10 format=4 uid="uid://dgb4lk3dxdk21"]
 
 [ext_resource type="PackedScene" uid="uid://ec8btf0qmcb" path="res://player.tscn" id="3_1dcmy"]
-[ext_resource type="Script" path="res://player.gd" id="3_6gl30"]
 [ext_resource type="PackedScene" uid="uid://tfcfwkxesudo" path="res://Bullet.tscn" id="4_5l3de"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="5_cvfa4"]
 [ext_resource type="Script" path="res://death_zone.gd" id="5_d80af"]
@@ -85,8 +84,7 @@ tile_set = SubResource("TileSet_45rau")
 position = Vector2(5.10915, -46.2731)
 
 [node name="Player" parent="TileMapLayer" instance=ExtResource("3_1dcmy")]
-position = Vector2(6.20416, -48.2141)
-script = ExtResource("3_6gl30")
+position = Vector2(5.83863, -47.2435)
 
 [node name="Camera2D" type="Camera2D" parent="TileMapLayer/Player"]
 position = Vector2(1.51516, 5.06998)
@@ -103,9 +101,12 @@ position = Vector2(661.059, 63.0993)
 shape = SubResource("RectangleShape2D_o1lou")
 
 [node name="Check_point_1" type="Node2D" parent="TileMapLayer"]
-position = Vector2(8.02815, -32.3581)
+position = Vector2(8.3931, -47.8907)
 
 [node name="Enemy" parent="TileMapLayer" instance=ExtResource("7_fh7pc")]
-position = Vector2(118.6, -54.6861)
+position = Vector2(135.022, -58.569)
+
+[node name="Enemy2" parent="TileMapLayer" instance=ExtResource("7_fh7pc")]
+position = Vector2(568.186, -41.419)
 
 [connection signal="body_entered" from="TileMapLayer/Death_zone" to="TileMapLayer/Death_zone" method="_on_body_entered"]

@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://tfcfwkxesudo"]
+[gd_scene load_steps=5 format=3 uid="uid://tfcfwkxesudo"]
 
 [ext_resource type="Texture2D" uid="uid://4p02ocw6fnrp" path="res://bullet.png" id="2_78xjc"]
 [ext_resource type="Script" path="res://bullet.gd" id="2_s1rq3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mfteu"]
+size = Vector2(6, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66nro"]
 size = Vector2(6, 3.25)
@@ -11,12 +14,6 @@ script = ExtResource("2_s1rq3")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(0, 5.96046e-08)
-scale = Vector2(1, 1)
-
-[node name="AnimatedSprite" type="Sprite2D" parent="Area2D"]
-texture_filter = 1
-position = Vector2(3.8147e-06, 0.999996)
-scale = Vector2(1.46875, 1.03125)
 
 [node name="Timer" type="Timer" parent="Area2D"]
 wait_time = 5.0
@@ -29,11 +26,15 @@ position = Vector2(0, 1)
 scale = Vector2(1.35938, 1)
 texture = ExtResource("2_78xjc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="hit_box_collision_shape" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_mfteu")
+
+[node name="collision_box" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.375)
 shape = SubResource("RectangleShape2D_66nro")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Area2D/StopTimer" to="." method="_on_stop_timer_timeout"]
-[connection signal="child_entered_tree" from="Area2D/CollisionShape2D" to="." method="_on_collision_shape_2d_child_entered_tree"]
+[connection signal="child_entered_tree" from="collision_box" to="." method="_on_collision_shape_2d_child_entered_tree"]

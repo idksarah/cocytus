@@ -45,8 +45,8 @@ func init(delta):
 	if not is_on_floor():
 		velocity += 2 * get_gravity() * delta
 
-func restart():
-	if(Input.is_action_just_pressed("restart")):
+func restart(p_restart = false):
+	if(Input.is_action_just_pressed("restart") or p_restart):
 		get_parent().get_node("Death_zone").killPlayer()
 
 func player_animations():
@@ -128,9 +128,12 @@ func player_shoot(delta):
 			
 		if player_y_direction > 0:
 			bullet_instance.y_pos_offset *= -1
+			
 		bullet_instance.x_vector = -player_x_direction
 		bullet_instance.y_vector = -player_y_direction
 			
 		get_parent().add_child(bullet_instance)
-		
-		
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if(area.name == "kill_box_area_2d" and area.get_parent().name == "Enemy"):
+		restart(true)
