@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://ec8btf0qmcb"]
+[gd_scene load_steps=10 format=3 uid="uid://ec8btf0qmcb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bhw6x"]
 [ext_resource type="Texture2D" uid="uid://cwfg676gpp1wp" path="res://down_player.png" id="1_j1ywd"]
 [ext_resource type="Texture2D" uid="uid://bspeb4gmk6xrp" path="res://left_player.png" id="2_18uit"]
 [ext_resource type="Texture2D" uid="uid://cjdcpsl2is6w4" path="res://player.png" id="3_g827n"]
 [ext_resource type="Texture2D" uid="uid://cx3f36r7mmn7b" path="res://up_player.png" id="4_8s426"]
+
+[sub_resource type="Curve" id="Curve_ms445"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(0.341762, 1), 0.0, 0.0, 0, 0, Vector2(0.707178, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.00826991), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d7i10"]
 radius = 5.0
@@ -51,6 +55,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_bhw6x")
+velocity_curve = SubResource("Curve_ms445")
 
 [node name="Area2D" type="Area2D" parent="."]
 

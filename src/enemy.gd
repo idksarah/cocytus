@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	#print(area.get_parent().name)
-	if(area.get_parent().name == "Bullet") || area.get_parent().name == "@CharacterBody2D@2": #it rlly should not have to equal whatever that is but umm. idc.
+	if(area.get_parent().name.substr(0, 6) == "Bullet"):
 		print('vere i am COMING for u')
 		queue_free()
 

@@ -16,9 +16,7 @@ script = ExtResource("2_s1rq3")
 position = Vector2(0, 5.96046e-08)
 
 [node name="Timer" type="Timer" parent="Area2D"]
-wait_time = 5.0
-
-[node name="StopTimer" type="Timer" parent="Area2D"]
+wait_time = 0.5
 
 [node name="Bullet" type="Sprite2D" parent="Area2D"]
 texture_filter = 1
@@ -36,5 +34,4 @@ shape = SubResource("RectangleShape2D_66nro")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="Area2D/StopTimer" to="." method="_on_stop_timer_timeout"]
 [connection signal="child_entered_tree" from="collision_box" to="." method="_on_collision_shape_2d_child_entered_tree"]

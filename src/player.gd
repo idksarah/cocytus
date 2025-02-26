@@ -3,6 +3,9 @@ extends CharacterBody2D
 @onready var animator = $AnimatedSprite2D
 @onready var bullet = preload("res://Bullet.tscn")
 
+@export var velocity_curve : Curve
+var curve_output
+
 var mouse_pos : Vector2
 var char_pos : Vector2
 
@@ -12,24 +15,23 @@ const giga_speed = 400.0
 const coyote_time = 0.2
 var curr_coyote_time = 0
 var move_duration = 0.1
-var giga_move_duration = 0.15
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
 
 var move_timer = 0.0
 
-var x_tolerance = 30
-var y_tolerance = 40
+@export var x_tolerance = 30
+@export var y_tolerance = 40
 var x_direction_multiplier = 0.02
 var y_direction_multiplier = 0.02
 var max_x_direction = 3.5
-var max_y_direction = 2.5
+var max_y_direction = 2.7
 var bullet_x_offset = 10
 var bullet_y_offset = 10
 
-var player_x_direction := Input.get_axis("better_left", "better_right")
-var player_y_direction := Input.get_axis("better_down", "better_up")
+var player_x_accel := Input.get_axis("better_left", "better_right")
+var player_y_accel := Input.get_axis("better_down", "better_up")
 
 enum state {left_shoot, right_shoot, down_shoot, up_shoot, left_down_shoot, left_up_shoot, right_down_shoot, right_up_shoot}
 var current_state : state
@@ -40,6 +42,7 @@ func _physics_process(delta: float) -> void:
 	player_animations()
 	move_and_slide()
 	restart()
+	#print(velocity)
 	
 func init(delta):
 	if not is_on_floor():
@@ -104,16 +107,20 @@ func player_shoot(delta):
 		cur_bullets_shot = 0
 		
 	if(is_on_floor() || cur_bullets_shot < max_bullets_shot):
-		player_x_direction = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
-		player_y_direction = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
+		player_x_accel = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
+		player_y_accel = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
 		
-		player_x_direction = clamp(player_x_direction, -max_x_direction, max_x_direction)
-		player_y_direction = clamp(player_y_direction, -max_y_direction, max_y_direction)
+		self.curve_output = self.velocity_curve.sample(self.player_x_accel)
+		self.curve_output = self.velocity_curve.sample(self.player_y_accel)
 		
-		velocity.x = player_x_direction * reg_speed
-		velocity.y = player_y_direction * reg_speed
+		player_x_accel = clamp(player_x_accel, -max_x_direction, max_x_direction)
+		player_y_accel = clamp(player_y_accel, -max_y_direction, max_y_direction)
+		
+		velocity.x += player_x_accel * reg_speed
+		velocity.y += player_y_accel * reg_speed
 		move_timer = move_duration
 		
+		#u should move this shyt
 		if not is_on_floor():
 			cur_bullets_shot+=1
 		
@@ -123,17 +130,18 @@ func player_shoot(delta):
 		var bullet_instance = bullet.instantiate() as Node2D
 		bullet_instance.pos = animator.global_position
 		
-		if player_x_direction > 0:
+		if player_x_accel > 0:
 			bullet_instance.x_pos_offset *= -1
 			
-		if player_y_direction > 0:
+		if player_y_accel > 0:
 			bullet_instance.y_pos_offset *= -1
 			
-		bullet_instance.x_vector = -player_x_direction
-		bullet_instance.y_vector = -player_y_direction
+		bullet_instance.x_vector = -player_x_accel
+		bullet_instance.y_vector = -player_y_accel
 			
 		get_parent().add_child(bullet_instance)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if(area.name == "kill_box_area_2d" and area.get_parent().name == "Enemy"):
+	if(area.name == "kill_box_area_2d" and area.get_parent().name.substr(0,5) == "Enemy"):
+		print('diddled')
 		restart(true)
