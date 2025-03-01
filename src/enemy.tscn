@@ -42,6 +42,6 @@ shape = SubResource("CircleShape2D_ot6kk")
 shape = SubResource("CircleShape2D_4e12t")
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
-[connection signal="area_entered" from="hit_box_area_2d" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="hit_box_area_2d" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="hit_box_area_2d" to="." method="_on_hit_box_area_entered"]
 [connection signal="area_entered" from="vision_area_2d" to="." method="_on_vision_area_entered"]

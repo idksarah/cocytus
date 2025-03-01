@@ -15,9 +15,6 @@ script = ExtResource("2_s1rq3")
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(0, 5.96046e-08)
 
-[node name="Timer" type="Timer" parent="Area2D"]
-wait_time = 0.5
-
 [node name="Bullet" type="Sprite2D" parent="Area2D"]
 texture_filter = 1
 position = Vector2(0, 1)
@@ -27,6 +24,9 @@ texture = ExtResource("2_78xjc")
 [node name="hit_box_collision_shape" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mfteu")
+
+[node name="Timer" type="Timer" parent="Area2D"]
+wait_time = 0.5
 
 [node name="collision_box" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.375)

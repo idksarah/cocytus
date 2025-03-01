@@ -11,7 +11,7 @@ var multiplier = 500
 var stopped = false
 
 @onready var timer = $Area2D/Timer
-@onready var collision = $Area2D/CollisionShape2D
+@onready var collision = $collision_box
 
 func _ready() -> void:
 	global_position = Vector2(pos.x + x_pos_offset, pos.y + y_pos_offset)

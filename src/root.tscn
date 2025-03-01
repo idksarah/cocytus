@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dgb4lk3dxdk21"]
+[gd_scene load_steps=10 format=4 uid="uid://dgb4lk3dxdk21"]
 
 [ext_resource type="PackedScene" uid="uid://ec8btf0qmcb" path="res://player.tscn" id="3_1dcmy"]
 [ext_resource type="PackedScene" uid="uid://tfcfwkxesudo" path="res://Bullet.tscn" id="4_5l3de"]
@@ -67,6 +67,10 @@ texture = ExtResource("6_gde1s")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_ojeaa")
 
+[sub_resource type="Curve" id="Curve_wej66"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1lou"]
 size = Vector2(1594.35, 20)
 
@@ -83,7 +87,9 @@ tile_set = SubResource("TileSet_45rau")
 position = Vector2(5.10915, -46.2731)
 
 [node name="Player" parent="TileMapLayer" instance=ExtResource("3_1dcmy")]
-position = Vector2(44.1556, -50.4794)
+position = Vector2(90.5009, -60.187)
+velocity_curve = SubResource("Curve_wej66")
+y_tolerance = 39
 
 [node name="Camera2D" type="Camera2D" parent="TileMapLayer/Player"]
 position = Vector2(1.51516, 5.06998)

@@ -1,32 +1,32 @@
 extends CharacterBody2D
 
 @onready var animator = $AnimatedSprite2D
+@onready var move_timer = $Timer
 @onready var bullet = preload("res://Bullet.tscn")
 
 @export var velocity_curve : Curve
-var curve_output
+var velocity_x_target = 0.0
+var velocity_y_target = 0.0
+var move_duration = 0.1
+const max_velocity = 300.0
 
 var mouse_pos : Vector2
 var char_pos : Vector2
 
 var cur_speed = 0.0
-const reg_speed = 300.0
-const giga_speed = 400.0
-const coyote_time = 0.2
+const reg_speed = 320.0
 var curr_coyote_time = 0
-var move_duration = 0.1
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
 
-var move_timer = 0.0
-
 @export var x_tolerance = 30
 @export var y_tolerance = 40
+
 var x_direction_multiplier = 0.02
-var y_direction_multiplier = 0.02
+var y_direction_multiplier = 0.04
 var max_x_direction = 3.5
-var max_y_direction = 2.7
+var max_y_direction = 3
 var bullet_x_offset = 10
 var bullet_y_offset = 10
 
@@ -41,8 +41,9 @@ func _physics_process(delta: float) -> void:
 	track_mouse(delta)
 	player_animations()
 	move_and_slide()
+	apply_gravity(delta)
 	restart()
-	#print(velocity)
+	print(move_timer.time_left)
 	
 func init(delta):
 	if not is_on_floor():
@@ -52,6 +53,9 @@ func restart(p_restart = false):
 	if(Input.is_action_just_pressed("restart") or p_restart):
 		get_parent().get_node("Death_zone").killPlayer()
 
+func apply_gravity(delta):
+	if not is_on_floor():
+		velocity.y += get_gravity().y * delta * 1.5
 func player_animations():
 	if current_state == state.left_shoot || current_state == state.left_up_shoot || current_state == state.left_down_shoot:
 		animator.play("left_shoot")
@@ -95,12 +99,9 @@ func track_mouse(delta):
 	
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
-		
-	# continue moving for move_duration even after player releases key
-	elif move_timer > 0: # should change this to an actual timer u fuckass
-		move_timer-= delta
-	else:
-		velocity.x = move_toward(velocity.x, 0, reg_speed)
+	elif move_timer.time_left == 0:
+		velocity.x = lerp(velocity.x, 0., .09)
+		velocity.y = lerp(velocity.y, 0., .07)
 
 func player_shoot(delta):
 	if(is_on_floor()):
@@ -110,17 +111,16 @@ func player_shoot(delta):
 		player_x_accel = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
 		player_y_accel = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
 		
-		self.curve_output = self.velocity_curve.sample(self.player_x_accel)
-		self.curve_output = self.velocity_curve.sample(self.player_y_accel)
-		
 		player_x_accel = clamp(player_x_accel, -max_x_direction, max_x_direction)
 		player_y_accel = clamp(player_y_accel, -max_y_direction, max_y_direction)
 		
-		velocity.x += player_x_accel * reg_speed
-		velocity.y += player_y_accel * reg_speed
-		move_timer = move_duration
+		velocity.x = player_x_accel * reg_speed
+		velocity.y = player_y_accel * reg_speed
 		
-		#u should move this shyt
+		move_timer.wait_time = move_duration
+		move_timer.start()
+		
+		#u should modularize this shyt
 		if not is_on_floor():
 			cur_bullets_shot+=1
 		
@@ -143,5 +143,4 @@ func player_shoot(delta):
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if(area.name == "kill_box_area_2d" and area.get_parent().name.substr(0,5) == "Enemy"):
-		print('diddled')
 		restart(true)
