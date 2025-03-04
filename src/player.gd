@@ -43,7 +43,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	apply_gravity(delta)
 	restart()
-	print(move_timer.time_left)
 	
 func init(delta):
 	if not is_on_floor():
@@ -51,7 +50,7 @@ func init(delta):
 
 func restart(p_restart = false):
 	if(Input.is_action_just_pressed("restart") or p_restart):
-		get_parent().get_node("Death_zone").killPlayer()
+		get_parent().get_node("Death_zone").kill_player()
 
 func apply_gravity(delta):
 	if not is_on_floor():
@@ -100,10 +99,10 @@ func track_mouse(delta):
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
 	elif move_timer.time_left == 0:
-		velocity.x = lerp(velocity.x, 0., .09)
+		velocity.x = lerp(velocity.x, 0., .08)
 		velocity.y = lerp(velocity.y, 0., .07)
 
-func player_shoot(delta):
+func player_shoot(_delta):
 	if(is_on_floor()):
 		cur_bullets_shot = 0
 		
@@ -142,5 +141,5 @@ func player_shoot(delta):
 		get_parent().add_child(bullet_instance)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if(area.name == "kill_box_area_2d" and area.get_parent().name.substr(0,5) == "Enemy"):
+	if(area.get_parent().get_name() == "Enemey" && area.get_name() == "kill_box_area_2d"):
 		restart(true)

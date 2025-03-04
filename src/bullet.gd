@@ -18,13 +18,10 @@ func _ready() -> void:
 	timer.start()
 	name = "Bullet"
 	
-func _process(delta: float) -> void:
-	pass
-	
 func _on_timer_timeout():
 	queue_free()
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	velocity = Vector2(x_vector * multiplier, y_vector * multiplier)
 	if stopped:
 		velocity = Vector2(0,0)

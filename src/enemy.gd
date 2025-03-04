@@ -20,9 +20,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
-	#print(area.get_parent().name)
 	if(area.get_parent().name.substr(0, 6) == "Bullet"):
-		print('vere i am COMING for u')
 		queue_free()
 
 func _on_vision_area_entered(area: Area2D) -> void:

@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://collision_shape_2d.gd" id="3_6l4wi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8c6gc"]
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m6h7m"]
 radius = 19.0263
@@ -13,8 +14,9 @@ radius = 19.0263
 radius = 67.0671
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4e12t"]
+radius = 12.0
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Enemey" type="CharacterBody2D"]
 script = ExtResource("1_gnjud")
 
 [node name="collision_box" type="CollisionShape2D" parent="."]
@@ -32,6 +34,7 @@ shape = SubResource("CircleShape2D_m6h7m")
 script = ExtResource("3_6l4wi")
 
 [node name="vision_area_2d" type="Area2D" parent="."]
+visible = false
 
 [node name="vision_collision_shape" type="CollisionShape2D" parent="vision_area_2d"]
 shape = SubResource("CircleShape2D_ot6kk")
