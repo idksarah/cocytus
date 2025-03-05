@@ -28,6 +28,6 @@ func _physics_process(_delta: float):
 	move_and_slide()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is CharacterBody2D and body.name == "Player" or body.name.substr(0,6) == "Bullet":
+	if body is CharacterBody2D and body.name == "Player":
 		return
 	queue_free()	

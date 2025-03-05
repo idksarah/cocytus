@@ -34,7 +34,6 @@ shape = SubResource("CircleShape2D_m6h7m")
 script = ExtResource("3_6l4wi")
 
 [node name="vision_area_2d" type="Area2D" parent="."]
-visible = false
 
 [node name="vision_collision_shape" type="CollisionShape2D" parent="vision_area_2d"]
 shape = SubResource("CircleShape2D_ot6kk")
