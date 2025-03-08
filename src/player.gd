@@ -4,18 +4,17 @@ extends CharacterBody2D
 @onready var move_timer = $Timer
 @onready var bullet = preload("res://Bullet.tscn")
 
-@export var velocity_curve : Curve
-var velocity_x_target = 0.0
-var velocity_y_target = 0.0
 var move_duration = 0.1
-const max_velocity = 300.0
 
 var mouse_pos : Vector2
 var char_pos : Vector2
 
 var cur_speed = 0.0
-const reg_speed = 320.0
-var curr_coyote_time = 0
+const reg_speed = 200.0
+var x_direction_multiplier = 0.04
+var y_direction_multiplier = 0.08
+var max_x_direction = 1
+var max_y_direction = 1.75
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
@@ -23,10 +22,6 @@ var max_bullets_shot = 1
 @export var x_tolerance = 30
 @export var y_tolerance = 40
 
-var x_direction_multiplier = 0.02
-var y_direction_multiplier = 0.04
-var max_x_direction = 3.5
-var max_y_direction = 3
 var bullet_x_offset = 10
 var bullet_y_offset = 10
 
@@ -46,7 +41,7 @@ func _physics_process(delta: float) -> void:
 	
 func init(delta):
 	if not is_on_floor():
-		velocity += 2 * get_gravity() * delta
+		velocity += get_gravity() * delta * 0.7
 
 func restart(p_restart = false):
 	if(Input.is_action_just_pressed("restart") or p_restart):
@@ -99,8 +94,10 @@ func track_mouse(delta):
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
 	elif move_timer.time_left == 0:
-		velocity.x = lerp(velocity.x, 0., .08)
-		velocity.y = lerp(velocity.y, 0., .07)
+		velocity *= 0.88  # Multiply by a factor between 0 and 1
+
+		#velocity.x = lerp(velocity.x, 0., .08)
+		#velocity.y = lerp(velocity.y, 0., .07)
 
 func player_shoot(_delta):
 	if(is_on_floor()):
