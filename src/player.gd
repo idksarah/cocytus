@@ -15,6 +15,8 @@ var x_direction_multiplier = 0.04
 var y_direction_multiplier = 0.08
 var max_x_direction = 1
 var max_y_direction = 1.75
+var min_x_direction = .1
+var min_y_direction = .1
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
@@ -94,10 +96,7 @@ func track_mouse(delta):
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
 	elif move_timer.time_left == 0:
-		velocity *= 0.88  # Multiply by a factor between 0 and 1
-
-		#velocity.x = lerp(velocity.x, 0., .08)
-		#velocity.y = lerp(velocity.y, 0., .07)
+		velocity *= 0.9
 
 func player_shoot(_delta):
 	if(is_on_floor()):
@@ -107,8 +106,13 @@ func player_shoot(_delta):
 		player_x_accel = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
 		player_y_accel = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
 		
-		player_x_accel = clamp(player_x_accel, -max_x_direction, max_x_direction)
-		player_y_accel = clamp(player_y_accel, -max_y_direction, max_y_direction)
+		var x_sign = sign(player_x_accel)
+		var y_sign = sign(player_y_accel)
+		
+		player_x_accel = x_sign * clamp(abs(player_x_accel), min_x_direction, max_x_direction)
+		player_y_accel = y_sign * clamp(abs(player_y_accel), min_y_direction, max_y_direction) # set a min movement too
+		
+		print(player_x_accel)
 		
 		velocity.x = player_x_accel * reg_speed
 		velocity.y = player_y_accel * reg_speed
