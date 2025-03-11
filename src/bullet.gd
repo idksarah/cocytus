@@ -6,7 +6,7 @@ var y_pos_offset = 10
 var dir : float
 var x_vector = 1
 var y_vector = 1
-var multiplier = 500
+var multiplier = 400
 
 var stopped = false
 
@@ -16,7 +16,7 @@ var stopped = false
 func _ready() -> void:
 	global_position = Vector2(pos.x + x_pos_offset, pos.y + y_pos_offset)
 	timer.start()
-	name = "Bullet"
+	name = "bullet"
 	
 func _on_timer_timeout():
 	queue_free()

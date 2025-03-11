@@ -13,7 +13,7 @@ var cur_speed = 0.0
 const reg_speed = 200.0
 var x_direction_multiplier = 0.04
 var y_direction_multiplier = 0.08
-var max_x_direction = 1
+var max_x_direction = 1.2
 var max_y_direction = 1.75
 var min_x_direction = .1
 var min_y_direction = .1
@@ -32,6 +32,8 @@ var player_y_accel := Input.get_axis("better_down", "better_up")
 
 enum state {left_shoot, right_shoot, down_shoot, up_shoot, left_down_shoot, left_up_shoot, right_down_shoot, right_up_shoot}
 var current_state : state
+
+var score = 0
 
 func _physics_process(delta: float) -> void:
 	init(delta)
@@ -96,7 +98,8 @@ func track_mouse(delta):
 	if(Input.is_action_just_pressed("shoot")):
 		player_shoot(delta)
 	elif move_timer.time_left == 0:
-		velocity *= 0.9
+		velocity.y *= 0.86
+		velocity.x *= 0.82
 
 func player_shoot(_delta):
 	if(is_on_floor()):
@@ -111,8 +114,6 @@ func player_shoot(_delta):
 		
 		player_x_accel = x_sign * clamp(abs(player_x_accel), min_x_direction, max_x_direction)
 		player_y_accel = y_sign * clamp(abs(player_y_accel), min_y_direction, max_y_direction) # set a min movement too
-		
-		print(player_x_accel)
 		
 		velocity.x = player_x_accel * reg_speed
 		velocity.y = player_y_accel * reg_speed
@@ -144,3 +145,4 @@ func player_shoot(_delta):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if(area.get_parent().get_name() == "Enemey" && area.get_name() == "kill_box_area_2d"):
 		restart(true)
+		get_tree().reload_current_scene()
