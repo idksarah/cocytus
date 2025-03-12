@@ -3,17 +3,17 @@ extends StaticBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	set_process(false)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	position.y += 5
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	print('uaghah55g')
-	
+	#print('uaghah55g')
+	#print(body.name)
 	if body.name == "bullet":
-		queue_free()
-		print('uaghah55g')
+		set_process(true)
+		#print('uaghah55g')

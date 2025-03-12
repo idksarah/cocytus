@@ -26,7 +26,7 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mfteu")
 
 [node name="Timer" type="Timer" parent="Area2D"]
-wait_time = 0.5
+wait_time = 2.0
 
 [node name="collision_box" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.375)

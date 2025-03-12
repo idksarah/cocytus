@@ -16,13 +16,13 @@ var y_direction_multiplier = 0.08
 var max_x_direction = 1.2
 var max_y_direction = 1.75
 var min_x_direction = .1
-var min_y_direction = .1
+var min_y_direction = .2
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
 
-@export var x_tolerance = 30
-@export var y_tolerance = 40
+@export var x_tolerance = 10
+@export var y_tolerance = 0
 
 var bullet_x_offset = 10
 var bullet_y_offset = 10
@@ -30,7 +30,7 @@ var bullet_y_offset = 10
 var player_x_accel := Input.get_axis("better_left", "better_right")
 var player_y_accel := Input.get_axis("better_down", "better_up")
 
-enum state {left_shoot, right_shoot, down_shoot, up_shoot, left_down_shoot, left_up_shoot, right_down_shoot, right_up_shoot}
+enum state {left, right, down, up, left_down, left_up, right_down, right_up}
 var current_state : state
 
 var score = 0
@@ -55,51 +55,51 @@ func apply_gravity(delta):
 	if not is_on_floor():
 		velocity.y += get_gravity().y * delta * 1.5
 func player_animations():
-	if current_state == state.left_shoot || current_state == state.left_up_shoot || current_state == state.left_down_shoot:
-		animator.play("left_shoot")
-	elif current_state == state.right_shoot || current_state == state.right_up_shoot || current_state == state.right_down_shoot:
-		animator.play("right_shoot")
-	elif current_state == state.up_shoot || current_state == state.right_up_shoot || current_state == state.right_down_shoot:
-		animator.play("up_shoot")
-	elif current_state == state.down_shoot || current_state == state.right_up_shoot || current_state == state.right_down_shoot:
-		animator.play("down_shoot")
+	match current_state:
+		state.left: animator.play("left")
+		state.left_up: animator.play("left_up")
+		state.left_down: animator.play("left_down")
+		state.right: animator.play("right")
+		state.right_up: animator.play("right_up")
+		state.right_down: animator.play("right_down")
+		state.up: animator.play("up")
+		state.down: animator.play("down")
+
 
 func track_mouse(delta):
 	mouse_pos = get_global_mouse_position()
 	char_pos = global_position
-	if(mouse_pos.x < char_pos.x && abs(mouse_pos.x - char_pos.x) > x_tolerance):
-		if(mouse_pos.y < char_pos.y - y_tolerance ):
-			current_state = state.left_down_shoot
-			#print("left up")
-		elif(mouse_pos.y > char_pos.y + y_tolerance):
-			current_state = state.left_up_shoot
-			#print("left down")
-		else:
-			current_state = state.left_shoot
-			#print("left")
-	elif(mouse_pos.x > char_pos.x && abs(mouse_pos.x - char_pos.x) > x_tolerance):
-		if(mouse_pos.y < char_pos.y - y_tolerance):
-			current_state = state.right_down_shoot
-			#print("right up")
-		elif(mouse_pos.y > char_pos.y + y_tolerance):
-			current_state = state.right_up_shoot
-			#print("right down")
-		else:
-			current_state = state.right_shoot
-			#print("right")
-	else:
-		if(mouse_pos.y < char_pos.y - y_tolerance):
-			current_state = state.up_shoot
-			#print("up")
-		elif(mouse_pos.y > char_pos.y + y_tolerance):
-			current_state = state.down_shoot
-			#print("down")
 	
-	if(Input.is_action_just_pressed("shoot")):
+	var x_diff = mouse_pos.x - char_pos.x
+	var y_diff = mouse_pos.y - char_pos.y
+
+	if abs(x_diff) > x_tolerance:  # Ensure significant horizontal movement
+		if x_diff < 0:  # Left side
+			if y_diff > y_tolerance:
+				current_state = state.left_down
+			elif y_diff < -y_tolerance:
+				current_state = state.left_up
+			else:
+				current_state = state.left
+		else:  # Right side
+			if y_diff > y_tolerance:
+				current_state = state.right_down
+			elif y_diff < -y_tolerance:
+				current_state = state.right_up
+			else:
+				current_state = state.right
+	else:  # Mostly vertical movement
+		if y_diff < -y_tolerance:
+			current_state = state.up
+		elif y_diff > y_tolerance:
+			current_state = state.down
+
+	if Input.is_action_just_pressed("shoot"):
 		player_shoot(delta)
 	elif move_timer.time_left == 0:
 		velocity.y *= 0.86
 		velocity.x *= 0.82
+
 
 func player_shoot(_delta):
 	if(is_on_floor()):
@@ -121,12 +121,11 @@ func player_shoot(_delta):
 		move_timer.wait_time = move_duration
 		move_timer.start()
 		
-		#u should modularize this shyt
+		#u should move this into bullet
 		if not is_on_floor():
 			cur_bullets_shot+=1
 		
 		# bullet
-		await get_tree().create_timer(.2).timeout
 		
 		var bullet_instance = bullet.instantiate() as Node2D
 		bullet_instance.pos = animator.global_position
@@ -142,6 +141,7 @@ func player_shoot(_delta):
 			
 		get_parent().add_child(bullet_instance)
 
+# handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if(area.get_parent().get_name() == "Enemey" && area.get_name() == "kill_box_area_2d"):
 		restart(true)

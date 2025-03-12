@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 var pos:Vector2
-var x_pos_offset = 20
-var y_pos_offset = 10
+var x_pos_offset = 2
+var y_pos_offset = 2
 var dir : float
 var x_vector = 1
 var y_vector = 1
@@ -28,6 +28,9 @@ func _physics_process(_delta: float):
 	move_and_slide()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is CharacterBody2D and body.name == "Player":
+	#print("parent name", body.get_parent().name)
+	if body.name == "Player" or body.name.substr(0,7) == "bullet":
 		return
+	print("name",body.name)
+	print("name",body.name.substr(0,7))
 	queue_free()	
