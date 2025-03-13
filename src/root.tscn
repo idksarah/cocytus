@@ -147,9 +147,9 @@ position = Vector2(1132.92, -315.324)
 shape = SubResource("RectangleShape2D_w2dfx")
 
 [node name="Player" parent="." instance=ExtResource("3_1dcmy")]
-position = Vector2(77, -4)
+position = Vector2(1047, -573)
 rotation = 0.0132017
-scale = Vector2(0.7, 0.7)
+scale = Vector2(1, 1)
 y_tolerance = 39
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -220,3 +220,4 @@ position = Vector2(389, -285)
 position = Vector2(840, -420)
 
 [connection signal="body_entered" from="Death_zone" to="Death_zone" method="_on_body_entered"]
+[connection signal="timeout" from="Player/Timer2" to="Player" method="_on_timer_2_timeout"]

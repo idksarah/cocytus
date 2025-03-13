@@ -3,8 +3,10 @@ extends CharacterBody2D
 @onready var animator = $AnimatedSprite2D
 @onready var move_timer = $Timer
 @onready var bullet = preload("res://Bullet.tscn")
+@onready var landing_particles = preload("res://landing_particles.tscn")
+@onready var leap_particles = preload("res://leap_particles.tscn")
 
-var move_duration = 0.1
+var move_duration = 1
 
 var mouse_pos : Vector2
 var char_pos : Vector2
@@ -13,10 +15,12 @@ var cur_speed = 0.0
 const reg_speed = 200.0
 var x_direction_multiplier = 0.04
 var y_direction_multiplier = 0.08
-var max_x_direction = 1.2
-var max_y_direction = 1.75
-var min_x_direction = .1
-var min_y_direction = .2
+var min_x_accel = .1
+var min_y_accel = .2
+var max_x_accel = 1.2
+var max_y_accel = 1.75
+var max_x_input = 40
+var max_y_input = 40
 
 var cur_bullets_shot = 0
 var max_bullets_shot = 1
@@ -27,13 +31,15 @@ var max_bullets_shot = 1
 var bullet_x_offset = 10
 var bullet_y_offset = 10
 
-var player_x_accel := Input.get_axis("better_left", "better_right")
-var player_y_accel := Input.get_axis("better_down", "better_up")
+var mouse_x_input := Input.get_axis("better_left", "better_right")
+var mouse_y_input := Input.get_axis("better_down", "better_up")
 
 enum state {left, right, down, up, left_down, left_up, right_down, right_up}
 var current_state : state
 
 var score = 0
+
+var is_grounded = true
 
 func _physics_process(delta: float) -> void:
 	init(delta)
@@ -42,7 +48,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	apply_gravity(delta)
 	restart()
-	
+	player_shoot(delta)
+
+	# Stop acceleration when the timer is not running
+	if move_timer.is_stopped():
+		#print('stap')
+		velocity.x = lerp(velocity.x, 0.0, 0.2)
+		velocity.y = lerp(velocity.y, 0.0, 0.2)
+
 func init(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta * 0.7
@@ -54,7 +67,18 @@ func restart(p_restart = false):
 func apply_gravity(delta):
 	if not is_on_floor():
 		velocity.y += get_gravity().y * delta * 1.5
+		
 func player_animations():
+	if is_grounded == false and is_on_floor() == true:
+		var landing_instance = landing_particles.instantiate()
+		landing_instance.global_position = $Marker2D.global_position
+		get_parent().add_child(landing_instance)
+	elif is_grounded == true and is_on_floor() == false:
+		var leap_instance = leap_particles.instantiate()
+		leap_instance.global_position = $Marker2D.global_position
+		get_parent().add_child(leap_instance)
+	is_grounded = is_on_floor()
+	
 	match current_state:
 		state.left: animator.play("left")
 		state.left_up: animator.play("left_up")
@@ -64,7 +88,6 @@ func player_animations():
 		state.right_down: animator.play("right_down")
 		state.up: animator.play("up")
 		state.down: animator.play("down")
-
 
 func track_mouse(delta):
 	mouse_pos = get_global_mouse_position()
@@ -94,55 +117,51 @@ func track_mouse(delta):
 		elif y_diff > y_tolerance:
 			current_state = state.down
 
-	if Input.is_action_just_pressed("shoot"):
-		player_shoot(delta)
-	elif move_timer.time_left == 0:
-		velocity.y *= 0.86
-		velocity.x *= 0.82
-
-
 func player_shoot(_delta):
-	if(is_on_floor()):
-		cur_bullets_shot = 0
-		
-	if(is_on_floor() || cur_bullets_shot < max_bullets_shot):
-		player_x_accel = -(mouse_pos.x - char_pos.x) * x_direction_multiplier
-		player_y_accel = -(mouse_pos.y - char_pos.y) * y_direction_multiplier
-		
-		var x_sign = sign(player_x_accel)
-		var y_sign = sign(player_y_accel)
-		
-		player_x_accel = x_sign * clamp(abs(player_x_accel), min_x_direction, max_x_direction)
-		player_y_accel = y_sign * clamp(abs(player_y_accel), min_y_direction, max_y_direction) # set a min movement too
-		
-		velocity.x = player_x_accel * reg_speed
-		velocity.y = player_y_accel * reg_speed
-		
-		move_timer.wait_time = move_duration
-		move_timer.start()
-		
-		#u should move this into bullet
-		if not is_on_floor():
-			cur_bullets_shot+=1
-		
-		# bullet
-		
-		var bullet_instance = bullet.instantiate() as Node2D
-		bullet_instance.pos = animator.global_position
-		
-		if player_x_accel > 0:
-			bullet_instance.x_pos_offset *= -1
+	if Input.is_action_pressed("shoot"):
+		if is_on_floor():
+			cur_bullets_shot = 0
+
+		if is_on_floor() || cur_bullets_shot < max_bullets_shot:
+			mouse_x_input = -(mouse_pos.x - char_pos.x)
+			mouse_y_input = -(mouse_pos.y - char_pos.y)
+				
+			const acceleration = 1
 			
-		if player_y_accel > 0:
-			bullet_instance.y_pos_offset *= -1
+			velocity.x = mouse_x_input * min(abs(velocity.x) + acceleration, max_x_accel)
+			velocity.y = mouse_y_input * min(abs(velocity.y) + acceleration, max_y_accel)
 			
-		bullet_instance.x_vector = -player_x_accel
-		bullet_instance.y_vector = -player_y_accel
+			move_timer.wait_time = move_duration
+			move_timer.start()
 			
-		get_parent().add_child(bullet_instance)
+			#if not is_on_floor():
+				#cur_bullets_shot+=1
+			#
+			## bullet
+			#
+			#var bullet_instance = bullet.instantiate() as Node2D
+			#bullet_instance.pos = animator.global_position
+			#
+			#if player_x_accel > 0:
+				#bullet_instance.x_pos_offset *= -1
+				#
+			#if player_y_accel > 0:
+				#bullet_instance.y_pos_offset *= -1
+				#
+			#bullet_instance.x_vector = -player_x_accel
+			#bullet_instance.y_vector = -player_y_accel
+				#
+				#get_parent().add_child(bullet_instance)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, 0.2)
+	
 
 # handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if(area.get_parent().get_name() == "Enemey" && area.get_name() == "kill_box_area_2d"):
 		restart(true)
 		get_tree().reload_current_scene()
+
+func _on_timer_2_timeout() -> void:
+	velocity = Vector2.ZERO
+	print(velocity)

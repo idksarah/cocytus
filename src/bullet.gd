@@ -12,6 +12,7 @@ var stopped = false
 
 @onready var timer = $Area2D/Timer
 @onready var collision = $collision_box
+@onready var player = $Player
 
 func _ready() -> void:
 	global_position = Vector2(pos.x + x_pos_offset, pos.y + y_pos_offset)
@@ -34,3 +35,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("name",body.name)
 	print("name",body.name.substr(0,7))
 	queue_free()	
+
+func handle_shoot():
+	if not player.is_on_floor:
+		player.cur_bullets_shot += 1
