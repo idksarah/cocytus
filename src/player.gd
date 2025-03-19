@@ -5,14 +5,15 @@ extends CharacterBody2D
 @onready var bullet = preload("res://Bullet.tscn")
 @onready var landing_particles = preload("res://landing_particles.tscn")
 @onready var leap_particles = preload("res://leap_particles.tscn")
+@onready var muzzle = $Muzzle
 
 var mouse_pos : Vector2
 var char_pos : Vector2
 var move_timer_duration = .3
 
-var vel_multipler = 2
-var max_x_accel = 1.2
-var max_y_accel = 1.75
+var vel_multipler = 120
+var max_x_accel = 1.25
+var max_y_accel = 1.25
 var max_x_input = 40
 var max_y_input = 40
 var gravity := 200
@@ -40,28 +41,34 @@ var start_timer = true
 var fly_boost = false
 var fly_boost_animation = false
 var is_grounded = true
+var was_gliding = false
+@export var gravity_on = true
 
 func _physics_process(delta: float) -> void:
-	init(delta)
 	track_mouse(delta)
 	player_animations()
 	move_and_slide()
 	apply_gravity(delta)
 	restart()
-	player_shoot(delta)
-	player_glide(delta)
+	var is_shooting = player_shoot(delta)
+	
+	if not is_shooting:
+		player_glide(delta)    
 	velocity.x *= 0.95
 
 func init(delta):
-	if not is_on_floor():
-		velocity += get_gravity() * delta * 0.7
+	pass
 
 func restart(p_restart = false):
 	if(Input.is_action_just_pressed("restart") or p_restart):
 		get_parent().get_node("Death_zone").kill_player()
 
 func apply_gravity(delta):
-	velocity.y += get_jump_gravity(velocity) * delta
+	if gravity_on:
+		velocity.y += get_jump_gravity(velocity) * delta
+		
+		if not is_on_floor():
+			velocity += get_gravity() * delta * 0.7
 
 func get_jump_gravity(velocity: Vector2):
 	if velocity.y < 0:
@@ -142,47 +149,49 @@ func apply_boost():
 func player_shoot(delta):
 	if Input.is_action_pressed("shoot"):
 		apply_boost()
-		if can_shoot or fly_boost:
+		if can_shoot:
 			if start_timer:
 				move_timer.wait_time = move_timer_duration
 				move_timer.start()
 				start_timer = false
 				
-			mouse_x_input = -(mouse_pos.x - char_pos.x)
-			mouse_y_input = -(mouse_pos.y - char_pos.y)
-					
-			const acceleration = 1
+			const acceleration = 1.5
+			
+			# Calculate direction vector from character to mouse
+			var direction = (char_pos - mouse_pos).normalized()
+			
+			if Input.is_action_pressed("glide"):
+				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel) / 0.5
+				velocity.y = vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel) / 0.25
+				was_gliding = false
+			else:	
+				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+				velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
 				
-			velocity.x = vel_multipler * mouse_x_input * min(abs(velocity.x) + acceleration, max_x_accel)
-			velocity.y = vel_multipler * mouse_y_input * min(abs(velocity.y) + acceleration, max_y_accel)
+				# bullet
+				
+				muzzle.shoot(direction.x, direction.y)
+				
 		else:			
-			velocity.x = lerp(velocity.x, 0.0, 0.2)
+			velocity.x = lerp(velocity.x, 0.0, 0.1)
 			velocity.y = lerp(velocity.y, 0.0, 0.2)
-			can_glide = true
-			if is_on_floor():
-				can_shoot = true
-				start_timer = true
-				
-				## bullet
-				#
-				#var bullet_instance = bullet.instantiate() as Node2D
-				#bullet_instance.pos = animator.global_position
-					#
-				#bullet_instance.x_vector = -velocity.x
-				#bullet_instance.y_vector = -velocity.y
-					#
-				#get_parent().add_child(bullet_instance)
+	if is_on_floor():
+		can_shoot = true
+		start_timer = true
+	else:
+		can_glide = true
 
 func player_glide(delta):
 	if Input.is_action_pressed("glide"):
+		apply_boost()
 		if can_glide:
-				mouse_x_input = -(mouse_pos.x - char_pos.x)
-				mouse_y_input = -(mouse_pos.y - char_pos.y)
+			was_gliding = true
+			var direction = (char_pos - mouse_pos).normalized()
 					
-				const acceleration = 1
+			const acceleration = 1
 				
-				velocity.x = 0.5 * vel_multipler * mouse_x_input * min(abs(velocity.x) + acceleration, max_x_accel)
-				velocity.y = 0.25 * 	velocity.y
+			velocity.x = 0.5 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+			velocity.y = 0.4 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
 			
 # handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:

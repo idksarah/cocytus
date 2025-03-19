@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ec8btf0qmcb"]
+[gd_scene load_steps=22 format=3 uid="uid://ec8btf0qmcb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_bhw6x"]
 [ext_resource type="Texture2D" uid="uid://b7r6cjqwi1xpy" path="res://boost002.png" id="2_3ca2m"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bi0qcv7x0q7yx" path="res://boost007.png" id="8_2xo2e"]
 [ext_resource type="Texture2D" uid="uid://niqhfmhcm2j3" path="res://right_up.png" id="8_il1lo"]
 [ext_resource type="Texture2D" uid="uid://bsp05rk25pt4y" path="res://boost003.png" id="9_ed4r4"]
+[ext_resource type="PackedScene" uid="uid://dm2q763jg0gv7" path="res://muzzle.tscn" id="18_c8tvy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d7i10"]
 radius = 8.0
@@ -154,7 +155,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pws34"]
-size = Vector2(16, 16)
+size = Vector2(14, 14)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 scale = Vector2(0.5, 0.5)
@@ -174,11 +175,13 @@ animation = &"boost_right_up"
 shape = SubResource("RectangleShape2D_pws34")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.2
 one_shot = true
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, 50)
+
+[node name="Muzzle" parent="." instance=ExtResource("18_c8tvy")]
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

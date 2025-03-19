@@ -14,7 +14,7 @@ size = Vector2(31.75, 16)
 
 [sub_resource type="Animation" id="Animation_t4mnp"]
 resource_name = "move"
-length = 2.0
+length = 1.5
 loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -23,7 +23,7 @@ tracks/0/path = NodePath("../../PathFollow2D:progress_ratio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(-1.56, 1),
 "update": 0,
 "values": [0.0, 1.0]
@@ -40,15 +40,16 @@ curve = SubResource("Curve2D_pe7si")
 script = ExtResource("1_h0vtq")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(-1, -71)
+position = Vector2(-1, -135)
 rotation = -1.5708
+progress = 64.0
 rotates = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
 remote_path = NodePath("../../AnimatableBody2D")
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
-position = Vector2(-1, -71)
+position = Vector2(-1, -135)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]

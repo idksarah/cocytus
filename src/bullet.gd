@@ -1,41 +1,21 @@
-extends CharacterBody2D
+extends Area2D
 
-var pos:Vector2
-var x_pos_offset = 2
-var y_pos_offset = 2
-var dir : float
-var x_vector = 1
-var y_vector = 1
-var multiplier = 400
+@export var speed = 300
 
-var stopped = false
+var direction : Vector2
+var timeout = 3
 
-@onready var timer = $Area2D/Timer
-@onready var collision = $collision_box
-@onready var player = $Player
-
-func _ready() -> void:
-	global_position = Vector2(pos.x + x_pos_offset, pos.y + y_pos_offset)
-	timer.start()
-	name = "bullet"
-	
-func _on_timer_timeout():
+func _ready():
+	await get_tree().create_timer(timeout).timeout
 	queue_free()
-
-func _physics_process(_delta: float):
-	velocity = Vector2(x_vector * multiplier, y_vector * multiplier)
-	if stopped:
-		velocity = Vector2(0,0)
-	move_and_slide()
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	#print("parent name", body.get_parent().name)
-	if body.name == "Player" or body.name.substr(0,7) == "bullet":
-		return
-	print("name",body.name)
-	print("name",body.name.substr(0,7))
-	queue_free()	
-
-func handle_shoot():
-	if not player.is_on_floor:
-		player.cur_bullets_shot += 1
+	
+func set_direction(bulletDirection):
+	direction = bulletDirection
+	rotation_degrees = rad_to_deg(direction.angle())
+	
+func _physics_process(delta: float) -> void:
+	global_position += direction * speed * delta
+	
+func _on_body_entered(body: Node2D) -> void:
+	if not body.is_in_group("Player"):
+		queue_free()

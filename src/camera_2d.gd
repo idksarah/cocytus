@@ -1,6 +1,6 @@
 extends Camera2D
 
-const SCREEN_SIZE := Vector2( 320, 180 )
+@export var SCREEN_SIZE := Vector2( 320, 180 )
 var cur_screen := Vector2( 0, 0 )
 
 @onready var timer = $"../Timer2"
