@@ -1,23 +1,49 @@
-[gd_scene load_steps=4 format=3 uid="uid://ciymdpuseqki1"]
+[gd_scene load_steps=8 format=3 uid="uid://ciymdpuseqki1"]
 
-[ext_resource type="Script" path="res://wind.gd" id="1_doivi"]
-[ext_resource type="Texture2D" uid="uid://bidq3einx7e6a" path="res://collectible.png" id="2_tkgui"]
+[ext_resource type="Script" path="res://wind.gd" id="1_y2tyu"]
+[ext_resource type="Texture2D" uid="uid://bmf0q45j53bup" path="res://wind_animation/wind000.png" id="2_8eqi8"]
+[ext_resource type="Texture2D" uid="uid://bc44usk4gdwdy" path="res://wind_animation/wind001.png" id="3_lc340"]
+[ext_resource type="Texture2D" uid="uid://cbjnpyflyt24y" path="res://wind_animation/wind002.png" id="4_o6u65"]
+[ext_resource type="Texture2D" uid="uid://baqst0lrtuven" path="res://wind_mouth.png" id="5_n2846"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j4kqk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8eqi8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lc340")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_o6u65")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnx44"]
-size = Vector2(20, 68)
+size = Vector2(14, 68)
 
-[node name="Vertical_wind" type="Area2D"]
-script = ExtResource("1_doivi")
+[node name="Wind" type="Area2D"]
+script = ExtResource("1_y2tyu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 34)
+sprite_frames = SubResource("SpriteFrames_j4kqk")
+autoplay = "default"
+frame_progress = 0.787379
 
 [node name="inside" type="CollisionShape2D" parent="."]
 position = Vector2(0, 34)
 shape = SubResource("RectangleShape2D_lnx44")
 
-[node name="Collectible" type="Sprite2D" parent="."]
-position = Vector2(1, 69)
-texture = ExtResource("2_tkgui")
-
 [node name="Timer" type="Timer" parent="."]
+
+[node name="WindMouth" type="Sprite2D" parent="."]
+position = Vector2(0, 65)
+texture = ExtResource("5_n2846")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

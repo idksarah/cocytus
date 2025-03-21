@@ -12,6 +12,7 @@ var char_pos : Vector2
 var move_timer_duration = .3
 
 var vel_multipler = 120
+var wind_multiplier = 1.5
 var max_x_accel = 1.25
 var max_y_accel = 1.25
 var max_x_input = 40
@@ -43,6 +44,7 @@ var fly_boost_animation = false
 var is_grounded = true
 var was_gliding = false
 @export var gravity_on = true
+var in_wind = false
 
 func _physics_process(delta: float) -> void:
 	track_mouse()
@@ -163,11 +165,16 @@ func player_shoot():
 				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel) / 0.5
 				velocity.y = vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel) / 0.25
 				was_gliding = false
+				#if in_wind:
+					#velocity.x *= wind_multiplier
+					#velocity.y *= wind_multiplier
+				#else:
+					#velocity.x /= wind_multiplier
+					#velocity.y /= wind_multiplier
 			else:	
 				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
 				velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
 				
-				# bullet
 				muzzle.shoot(direction.x, direction.y)
 				
 		else:			

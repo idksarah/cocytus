@@ -11,19 +11,14 @@ func _ready() -> void:
 	set_process(false)
 
 func _process(delta: float) -> void:
-	if player.global_position.y > global_position.y + 1:  # Add a small buffer to prevent jitter
-		player.velocity.y = lerp(player.velocity.y, -200.0, delta)  # Smooth transition
-		player.gravity_on = false
-		player.can_shoot = true
-	else:
-		player.velocity.y = 0  # Stop movement when near the limit
-		set_process(false)  # Stop unnecessary updates
+	player.velocity.y = lerp(player.velocity.y, -200.0, delta)  # Smooth transition
+	player.gravity_on = false
+	player.can_shoot = true
 
 func _on_body_entered(body: Node2D) -> void:
 	get_out = false
 	if body.is_in_group("Player"):
 		set_process(true)
-		#player.in_wind = true
 		
 func _on_body_exited(_body: Node2D) -> void:
 	if should_start_timer:
@@ -37,3 +32,7 @@ func _on_timer_timeout() -> void:
 	if get_out:
 		set_process(false)
 		player.gravity_on = true
+	else:
+		if player.global_position.y < global_position.y:
+			player.velocity.y = randf_range(-5,5)  #jitter at the end
+			set_process(false) 

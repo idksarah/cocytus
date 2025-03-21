@@ -1,22 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpembc5e676cd"]
+[gd_scene load_steps=8 format=3 uid="uid://bd15fkvjbe6r"]
 
-[ext_resource type="Script" path="res://vertical_wind.gd" id="1_kq8af"]
-[ext_resource type="Texture2D" uid="uid://baqst0lrtuven" path="res://wind_mouth.png" id="2_d3nth"]
-[ext_resource type="Texture2D" uid="uid://bmf0q45j53bup" path="res://wind_animation/wind000.png" id="2_is6c4"]
-[ext_resource type="Texture2D" uid="uid://bc44usk4gdwdy" path="res://wind_animation/wind001.png" id="3_7sj6t"]
-[ext_resource type="Texture2D" uid="uid://cbjnpyflyt24y" path="res://wind_animation/wind002.png" id="4_7a0hc"]
+[ext_resource type="Script" path="res://horizontal_wind.gd" id="1_xs6xl"]
+[ext_resource type="Texture2D" uid="uid://bmf0q45j53bup" path="res://wind_animation/wind000.png" id="2_au500"]
+[ext_resource type="Texture2D" uid="uid://bc44usk4gdwdy" path="res://wind_animation/wind001.png" id="3_7aqvk"]
+[ext_resource type="Texture2D" uid="uid://cbjnpyflyt24y" path="res://wind_animation/wind002.png" id="4_lqfb6"]
+[ext_resource type="Texture2D" uid="uid://baqst0lrtuven" path="res://wind_mouth.png" id="5_lqa6x"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j4kqk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_is6c4")
+"texture": ExtResource("2_au500")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_7sj6t")
+"texture": ExtResource("3_7aqvk")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_7a0hc")
+"texture": ExtResource("4_lqfb6")
 }],
 "loop": true,
 "name": &"default",
@@ -26,8 +26,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnx44"]
 size = Vector2(14, 83)
 
-[node name="Vertical_wind" type="Area2D"]
-script = ExtResource("1_kq8af")
+[node name="Right_wind" type="Area2D"]
+rotation = 1.5708
+script = ExtResource("1_xs6xl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 34)
@@ -36,14 +37,14 @@ autoplay = "default"
 frame_progress = 0.787379
 
 [node name="inside" type="CollisionShape2D" parent="."]
-position = Vector2(0, 26.5)
+position = Vector2(1.18021e-06, 27)
 shape = SubResource("RectangleShape2D_lnx44")
 
 [node name="Timer" type="Timer" parent="."]
 
 [node name="WindMouth" type="Sprite2D" parent="."]
 position = Vector2(0, 65)
-texture = ExtResource("2_d3nth")
+texture = ExtResource("5_lqa6x")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
