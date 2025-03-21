@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=4 uid="uid://dgb4lk3dxdk21"]
 
-[ext_resource type="Texture2D" uid="uid://c3736hkcbuydl" path="res://art/png/Sprite-0005.png" id="1_elcsv"]
+[ext_resource type="Texture2D" uid="uid://b2n2cy0mtruax" path="res://Sprite-0005.png" id="1_elcsv"]
 [ext_resource type="PackedScene" uid="uid://ec8btf0qmcb" path="res://player.tscn" id="3_1dcmy"]
-[ext_resource type="Script" path="res://src/custom/player.gd" id="3_6gl30"]
+[ext_resource type="Script" path="res://player.gd" id="3_6gl30"]
 [ext_resource type="PackedScene" uid="uid://tfcfwkxesudo" path="res://bullet.tscn" id="4_5l3de"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_omojw"]

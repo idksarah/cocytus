@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8v82ylwwgw0w"]
+
+[ext_resource type="Script" path="res://post_wind.gd" id="1_u6q2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wem0x"]
+
+[node name="post_wind" type="Area2D"]
+script = ExtResource("1_u6q2k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wem0x")
+
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
