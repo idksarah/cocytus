@@ -15,12 +15,18 @@ run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Singleton="*res://singleton.gd"
+
 [display]
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
 window/size/mode=2
 window/energy_saving/keep_screen_on=false
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 
 [global_group]
 

@@ -49,19 +49,19 @@ func _physics_process(delta: float) -> void:
 	player_animations()
 	move_and_slide()
 	apply_gravity(delta)
-	restart()
+	handle_restart()
 	var is_shooting = player_shoot(delta)
 	
 	if not is_shooting:
 		player_glide(delta)    
 	velocity.x *= 0.95
+	
+func _ready():
+	global_position = Singleton.last_checkpoint
 
-func init(delta):
-	pass
-
-func restart(p_restart = false):
+func handle_restart(p_restart = false):
 	if(Input.is_action_just_pressed("restart") or p_restart):
-		get_parent().get_node("Death_zone").kill_player()
+		Singleton.reset()
 
 func apply_gravity(delta):
 	if gravity_on:
@@ -157,7 +157,6 @@ func player_shoot(delta):
 				
 			const acceleration = 1.5
 			
-			# Calculate direction vector from character to mouse
 			var direction = (char_pos - mouse_pos).normalized()
 			
 			if Input.is_action_pressed("glide"):
@@ -169,7 +168,6 @@ func player_shoot(delta):
 				velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
 				
 				# bullet
-				
 				muzzle.shoot(direction.x, direction.y)
 				
 		else:			
@@ -196,8 +194,8 @@ func player_glide(delta):
 # handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if(area.get_parent().get_name() == "Enemey" && area.get_name() == "kill_box_area_2d"):
-		restart(true)
-		get_tree().reload_current_scene()
+		Singleton.reset()
+		Singleton.kill_player()
 
 func _on_timer_timeout() -> void:
 	can_shoot = false

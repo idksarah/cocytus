@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		kill_player()
-		
-func kill_player():
-	player.global_position = checkpoint_manager.last_location
+		Singleton.reset()
+		Singleton.kill_player()
+		print(Singleton.death_count)
+		print(Singleton.collectible_count)
