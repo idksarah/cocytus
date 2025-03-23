@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxlmof0sng31p"]
+[gd_scene load_steps=6 format=3 uid="uid://ca1orbmb47i63"]
 
-[ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="2_0gni2"]
+[ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="1_g1ts5"]
 
 [sub_resource type="Curve2D" id="Curve2D_3i40x"]
 resource_local_to_scene = true
@@ -34,21 +34,20 @@ _data = {
 "move": SubResource("Animation_t4mnp")
 }
 
-[node name="Diagonal_moving_platform" type="Path2D"]
+[node name="Diagonal_moving" type="Path2D"]
 position = Vector2(2, 142)
 curve = SubResource("Curve2D_3i40x")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(7.33443, -148.462)
+position = Vector2(-2, -142)
 rotation = -1.5708
-progress = 11.3579
 rotates = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
 remote_path = NodePath("../../AnimatableBody2D")
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
-position = Vector2(7.33443, -148.462)
+position = Vector2(-2, -142)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
@@ -58,7 +57,7 @@ shape = SubResource("RectangleShape2D_o4by2")
 [node name="SnowPlatform" type="Sprite2D" parent="AnimatableBody2D"]
 position = Vector2(-71, 0.999744)
 rotation = 1.5708
-texture = ExtResource("2_0gni2")
+texture = ExtResource("1_g1ts5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimatableBody2D/CollisionShape2D")

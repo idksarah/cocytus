@@ -45,18 +45,26 @@ var is_grounded = true
 var was_gliding = false
 @export var gravity_on = true
 var in_wind = false
+var kinda_in_wind = false
+var big_wind = false
+#
+#enum state {left}
+#var wind_direction : state
+
 
 func _physics_process(delta: float) -> void:
 	track_mouse()
 	player_animations()
-	move_and_slide()
 	apply_gravity(delta)
 	handle_restart()
-	var is_shooting = player_shoot()
+	var is_shooting = player_shoot(delta)
 	
 	if not is_shooting:
 		player_glide()    
 	velocity.x *= 0.95
+	move_and_slide()
+	#print(velocity)
+	print(can_shoot)
 	
 func _ready():
 	global_position = Singleton.last_checkpoint
@@ -71,6 +79,14 @@ func apply_gravity(delta):
 		
 		if not is_on_floor():
 			velocity += get_gravity() * delta * 0.7
+	
+	if in_wind: 
+		if big_wind:
+			velocity.y = -abs(lerp(velocity.y, -800.0, delta))
+		can_shoot = true
+	elif not in_wind and not kinda_in_wind:
+		gravity_on = true
+	
 
 func get_jump_gravity():
 	if velocity.y < 0:
@@ -148,37 +164,52 @@ func apply_boost():
 		fly_boost_animation = true
 		start_timer = true
 
-func player_shoot():
+func player_shoot(delta):
 	if Input.is_action_pressed("shoot"):
 		apply_boost()
+		const acceleration = 1.5
+			
+		var direction = (char_pos - mouse_pos).normalized()
 		if can_shoot:
-			if start_timer:
-				move_timer.wait_time = move_timer_duration
-				move_timer.start()
-				start_timer = false
-				
-			const acceleration = 1.5
+			if fly_boost_animation:
+				fly_boost_animation = false
 			
-			var direction = (char_pos - mouse_pos).normalized()
-			
-			if Input.is_action_pressed("glide"):
+			if Input.is_action_pressed("glide"): # POST glide
 				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel) / 0.5
 				velocity.y = vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel) / 0.25
 				was_gliding = false
-				#if in_wind:
+				if in_wind or kinda_in_wind:
+					#velocity.y *= -abs(velocity.y)
+					can_shoot = true
 					#velocity.x *= wind_multiplier
 					#velocity.y *= wind_multiplier
 				#else:
 					#velocity.x /= wind_multiplier
 					#velocity.y /= wind_multiplier
 			else:	
-				velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
-				velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
+				if in_wind:
+					gravity_on = false
+					can_shoot = true
+					start_timer = true
+					#move_timer.stop()
+				elif kinda_in_wind:
+					gravity_on = false
+					can_shoot = true
+					start_timer = true
+				else:
+					velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+					velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
+					
+				if start_timer:
+					move_timer.wait_time = move_timer_duration
+					move_timer.start()
+					start_timer = false
 				
 				muzzle.shoot(direction.x, direction.y)
 				
 		else:			
-			velocity.x = lerp(velocity.x, 0.0, 0.1)
+			velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+			velocity.x = lerp(velocity.x, 0.0, 0.2)
 			velocity.y = lerp(velocity.y, 0.0, 0.2)
 	if is_on_floor():
 		can_shoot = true
@@ -188,15 +219,23 @@ func player_shoot():
 
 func player_glide():
 	if Input.is_action_pressed("glide"):
-		apply_boost()
-		if can_glide:
-			was_gliding = true
-			var direction = (char_pos - mouse_pos).normalized()
+		if not is_on_floor():
+			apply_boost()
+			if can_glide:
+				was_gliding = true
+				var direction = (char_pos - mouse_pos).normalized()
 					
-			const acceleration = 1
-				
-			velocity.x = 0.5 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
-			velocity.y = 0.4 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
+				const acceleration = 1
+					
+				velocity.x = 0.5 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+			
+				print("in wind", in_wind)
+				if not in_wind and not kinda_in_wind:
+					print('hes multipled')
+					velocity.y = 0.3 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
+				#else:
+					#print('what')
+					#velocity.y = -50
 			
 # handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:

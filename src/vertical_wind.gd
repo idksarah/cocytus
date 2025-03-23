@@ -3,36 +3,56 @@ extends Area2D
 @onready var player = self.get_parent().get_parent().get_parent().get_node("Player")
 @onready var timer = $Timer
 
-var get_out = false
+@onready var top = $Top
+@onready var bottom = $Bottom
+
+var in_out = false
 var should_start_timer = true
 var wait_time = .1
+var deltaXY = Vector2(0,0)
 
-func _ready() -> void:
+func _ready():
+	var top = top.global_position
+	var bottom = bottom.global_position
+	deltaXY.y = -(top.y - bottom.y)
+	deltaXY.x = (top.x - bottom.x)
+	deltaXY = deltaXY.normalized()
+	#print(deltaXY)
 	set_process(false)
-
+	
 func _process(delta: float) -> void:
-	player.velocity.y = lerp(player.velocity.y, -200.0, delta)  # Smooth transition
-	player.gravity_on = false
-	player.can_shoot = true
+	if deltaXY.x == 0:
+		player.velocity.y -= 15
+	else:
+		player.velocity.y -=  deltaXY.y * 25
+		player.velocity.x += deltaXY.x * 25
+		player.gravity_on = false
 
 func _on_body_entered(body: Node2D) -> void:
-	get_out = false
 	if body.is_in_group("Player"):
+		player.in_wind = true
 		set_process(true)
+		player.can_shoot = true
 		
 func _on_body_exited(_body: Node2D) -> void:
-	if should_start_timer:
-		should_start_timer = false
-		timer.wait_time = wait_time
-		timer.start()
-		get_out = true
-
-func _on_timer_timeout() -> void:
-	should_start_timer = true
-	if get_out:
-		set_process(false)
-		player.gravity_on = true
+	player.in_wind = false
+	
+	set_process(false)
+	if deltaXY.x == 0:
+		player.velocity.y += 15
 	else:
-		if player.global_position.y < global_position.y:
-			player.velocity.y = randf_range(-5,5)  #jitter at the end
-			set_process(false) 
+		player.velocity.y +=  deltaXY.y * 25
+		player.velocity.y -= deltaXY.x * 25
+	
+	player.gravity_on = true
+	
+func _on_in_out_body_entered(body: Node2D) -> void:
+		if body.is_in_group("Player"):
+			#print('kinda in wind')
+			player.kinda_in_wind = true
+
+func _on_in_out_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		#print('not kinda in wind')
+		player.kinda_in_wind = false
+ 

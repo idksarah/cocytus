@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd15fkvjbe6r"]
+[gd_scene load_steps=8 format=3 uid="uid://cncnnv38dnnh6"]
 
 [ext_resource type="Script" path="res://horizontal_wind.gd" id="1_xs6xl"]
 [ext_resource type="Texture2D" uid="uid://bmf0q45j53bup" path="res://wind_animation/wind000.png" id="2_au500"]

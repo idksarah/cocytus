@@ -1,11 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxlmof0sng31p"]
+[gd_scene load_steps=7 format=3 uid="uid://de5kigkedbjo5"]
 
-[ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="2_0gni2"]
+[ext_resource type="Script" path="res://path_2d.gd" id="1_pqhtw"]
+[ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="2_4uvhm"]
 
-[sub_resource type="Curve2D" id="Curve2D_3i40x"]
-resource_local_to_scene = true
+[sub_resource type="Curve2D" id="Curve2D_pe7si"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -2, -142, 0, 0, 0, 0, 76, -196)
+"points": PackedVector2Array(0, 0, 0, 0, -1, -71, 0, 0, 0, 0, -1, -135)
 }
 point_count = 2
 
@@ -34,21 +34,22 @@ _data = {
 "move": SubResource("Animation_t4mnp")
 }
 
-[node name="Diagonal_moving_platform" type="Path2D"]
+[node name="Vertical_moving" type="Path2D"]
 position = Vector2(2, 142)
-curve = SubResource("Curve2D_3i40x")
+curve = SubResource("Curve2D_pe7si")
+script = ExtResource("1_pqhtw")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(7.33443, -148.462)
+position = Vector2(-1, -135)
 rotation = -1.5708
-progress = 11.3579
+progress = 64.0
 rotates = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
 remote_path = NodePath("../../AnimatableBody2D")
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
-position = Vector2(7.33443, -148.462)
+position = Vector2(-1, -135)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
@@ -56,9 +57,9 @@ position = Vector2(-71.125, 0.999685)
 shape = SubResource("RectangleShape2D_o4by2")
 
 [node name="SnowPlatform" type="Sprite2D" parent="AnimatableBody2D"]
-position = Vector2(-71, 0.999744)
+position = Vector2(-71, 0.999743)
 rotation = 1.5708
-texture = ExtResource("2_0gni2")
+texture = ExtResource("2_4uvhm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimatableBody2D/CollisionShape2D")

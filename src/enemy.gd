@@ -1,10 +1,9 @@
 extends CharacterBody2D
 
-@onready var root = get_parent()
-@onready var player = root.get_node("Player")
+@onready var player = get_parent().get_parent().get_parent().get_node("Player")
 
-var x_speed = 1.5
-var y_speed = 1.5
+var x_speed = 1
+var y_speed = 1
 var should_chase_player = false
 
 func _ready():

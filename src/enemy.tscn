@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://p25guqyfd63x"]
 
 [ext_resource type="Script" path="res://enemy.gd" id="1_gnjud"]
-[ext_resource type="Texture2D" uid="uid://crsglayyydje" path="res://bingo.jpg" id="2_8gla4"]
 [ext_resource type="Script" path="res://collision_shape_2d.gd" id="3_6l4wi"]
+[ext_resource type="Texture2D" uid="uid://bgn6vpa22watf" path="res://bingo.jpg" id="3_u5oax"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8c6gc"]
 radius = 8.0
@@ -24,11 +24,6 @@ shape = SubResource("CircleShape2D_8c6gc")
 
 [node name="hit_box_area_2d" type="Area2D" parent="."]
 
-[node name="Bingo" type="Sprite2D" parent="hit_box_area_2d"]
-position = Vector2(5.96046e-08, 0)
-scale = Vector2(0.0230978, 0.0227582)
-texture = ExtResource("2_8gla4")
-
 [node name="hit_box_collision_shape" type="CollisionShape2D" parent="hit_box_area_2d"]
 shape = SubResource("CircleShape2D_m6h7m")
 script = ExtResource("3_6l4wi")
@@ -42,6 +37,11 @@ shape = SubResource("CircleShape2D_ot6kk")
 
 [node name="kill_box" type="CollisionShape2D" parent="kill_box_area_2d"]
 shape = SubResource("CircleShape2D_4e12t")
+
+[node name="Bingo" type="Sprite2D" parent="."]
+position = Vector2(0.246, 0.162)
+scale = Vector2(0.0169728, 0.0158641)
+texture = ExtResource("3_u5oax")
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="area_entered" from="hit_box_area_2d" to="." method="_on_hit_box_area_entered"]
