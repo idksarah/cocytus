@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ca1orbmb47i63"]
+[gd_scene load_steps=7 format=3 uid="uid://ca1orbmb47i63"]
 
+[ext_resource type="Script" path="res://moving_platform.gd" id="1_6hiws"]
 [ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="1_g1ts5"]
 
 [sub_resource type="Curve2D" id="Curve2D_3i40x"]
@@ -37,17 +38,20 @@ _data = {
 [node name="Diagonal_moving" type="Path2D"]
 position = Vector2(2, 142)
 curve = SubResource("Curve2D_3i40x")
+script = ExtResource("1_6hiws")
+loop = false
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(-2, -142)
+position = Vector2(75.7282, -195.812)
 rotation = -1.5708
+progress = 94.3306
 rotates = false
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
 remote_path = NodePath("../../AnimatableBody2D")
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
-position = Vector2(-2, -142)
+position = Vector2(75.7282, -195.812)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]

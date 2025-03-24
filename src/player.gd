@@ -64,7 +64,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x *= 0.95
 	move_and_slide()
 	#print(velocity)
-	print(can_shoot)
+	#print(can_shoot)
 	
 func _ready():
 	global_position = Singleton.last_checkpoint
@@ -198,7 +198,7 @@ func player_shoot(delta):
 					start_timer = true
 				else:
 					velocity.x = vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
-					velocity.y = 1.2 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
+					velocity.y = 1.1 * vel_multipler * direction.y * min(abs(velocity.y) + acceleration, max_y_accel)
 					
 				if start_timer:
 					move_timer.wait_time = move_timer_duration
@@ -227,11 +227,11 @@ func player_glide():
 					
 				const acceleration = 1
 					
-				velocity.x = 0.5 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+				velocity.x = 1.2 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
 			
-				print("in wind", in_wind)
+				#print("in wind", in_wind)
 				if not in_wind and not kinda_in_wind:
-					print('hes multipled')
+					#print('hes multipled')
 					velocity.y = 0.3 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
 				#else:
 					#print('what')

@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://cwc78oxjj5fce" path="res://crumbling_platform.png" id="2_ertq1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4p5i"]
-size = Vector2(32, 6)
+size = Vector2(16, 41)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rl7mv"]
-size = Vector2(32, 2)
+size = Vector2(16, 2)
 
 [node name="Crumbling_platform" type="StaticBody2D"]
 script = ExtResource("1_bt6ep")

@@ -1,36 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cljp10d2rdcek"]
+[gd_scene load_steps=8 format=3 uid="uid://dpt6fwi0m88vw"]
 
+[ext_resource type="Script" path="res://left_wind.gd" id="1_hrvew"]
 [ext_resource type="Texture2D" uid="uid://bmf0q45j53bup" path="res://wind_animation/wind000.png" id="2_6viel"]
 [ext_resource type="Texture2D" uid="uid://bc44usk4gdwdy" path="res://wind_animation/wind001.png" id="3_5p3pj"]
 [ext_resource type="Texture2D" uid="uid://cbjnpyflyt24y" path="res://wind_animation/wind002.png" id="4_lgmln"]
 [ext_resource type="Texture2D" uid="uid://baqst0lrtuven" path="res://wind_mouth.png" id="5_nygd1"]
-
-[sub_resource type="GDScript" id="GDScript_46pqh"]
-script/source = "extends Area2D
-
-@onready var player = self.get_parent().get_parent().get_parent().get_node(\"Player\")
-@onready var timer = $Timer
-
-var in_out = false
-var should_start_timer = true
-var wait_time = .1
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group(\"Player\"):
-		player.in_wind = true
-func _on_body_exited(_body: Node2D) -> void:
-	player.in_wind = false
-	
-func _on_in_out_body_entered(body: Node2D) -> void:
-		if body.is_in_group(\"Player\"):
-			print('kinda in wind')
-			player.kinda_in_wind = true
-
-func _on_in_out_body_exited(body: Node2D) -> void:
-	if body.is_in_group(\"Player\"):
-		print('not kinda in wind')
-		player.kinda_in_wind = false
-"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j4kqk"]
 animations = [{
@@ -54,7 +28,7 @@ size = Vector2(14, 83)
 
 [node name="Left_wind" type="Area2D"]
 rotation = -1.5708
-script = SubResource("GDScript_46pqh")
+script = ExtResource("1_hrvew")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 34)
