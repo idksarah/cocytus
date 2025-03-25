@@ -38,6 +38,7 @@ _data = {
 position = Vector2(2, 142)
 curve = SubResource("Curve2D_pe7si")
 script = ExtResource("1_gunem")
+loop = false
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(-1, -71)
