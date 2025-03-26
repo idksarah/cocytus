@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://ud3sh6niw7um"]
+
+[ext_resource type="Script" path="res://spike.gd" id="1_3pk7o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1gqtp"]
+size = Vector2(7.75, 7.75)
+
+[node name="TileMapLayer" type="TileMapLayer"]
+script = ExtResource("1_3pk7o")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1gqtp")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

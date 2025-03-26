@@ -218,7 +218,7 @@ func player_shoot(delta):
 		can_glide = true
 
 func player_glide():
-	if Input.is_action_pressed("glide"):
+	if Input.is_action_pressed("glide") or Input.is_action_pressed("slow"):
 		if not is_on_floor():
 			apply_boost()
 			if can_glide:
@@ -226,16 +226,16 @@ func player_glide():
 				var direction = (char_pos - mouse_pos).normalized()
 					
 				const acceleration = 1
-					
-				velocity.x = 1.2 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+				if Input.is_action_pressed("slow"):
+					velocity.x = .5 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
+				else:
+					velocity.x = 1.2 * vel_multipler * direction.x * min(abs(velocity.x) + acceleration, max_x_accel)
 			
 				#print("in wind", in_wind)
 				if not in_wind and not kinda_in_wind:
 					#print('hes multipled')
-					velocity.y = 0.3 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
-				#else:
-					#print('what')
-					#velocity.y = -50
+					velocity.y = 0.2 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
+				
 			
 # handle enemy and kill box interactions
 func _on_area_2d_area_entered(area: Area2D) -> void:
