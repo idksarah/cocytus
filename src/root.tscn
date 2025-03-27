@@ -471,13 +471,14 @@ position = Vector2(966, -1346)
 [node name="Enemies" type="Node2D" parent="Environment"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-visible = false
+offset = Vector2(-1600, 0)
+transform = Transform2D(1, 0, 0, 1, -1600, 0)
 
 [node name="Cocytus" type="ParallaxLayer" parent="ParallaxBackground"]
 
 [node name="TextureRect" type="TextureRect" parent="ParallaxBackground/Cocytus"]
-offset_top = -1440.0
-offset_right = 2560.0
+offset_top = -1800.0
+offset_right = 5120.0
 texture = ExtResource("21_0rmga")
 stretch_mode = 1
 
@@ -485,9 +486,8 @@ stretch_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="ParallaxBackground/Gradient"]
 offset_left = 7.0
-offset_top = -1438.0
-offset_right = 2567.0
-offset_bottom = 2.0
+offset_top = -1800.0
+offset_right = 5127.0
 texture = ExtResource("22_ex8h2")
 stretch_mode = 1
 
