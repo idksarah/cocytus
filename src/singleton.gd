@@ -10,6 +10,7 @@ var death_count : int
 func reset():
 	get_tree().reload_current_scene()
 	camera_restart = true
+	#print(last_checkpoint)
 
 func kill_player():
 	death_count+=1

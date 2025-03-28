@@ -7,4 +7,6 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
+		print('name', name)
+		print('respawn point', $Respawn_point.global_position)
 		Singleton.last_checkpoint = $Respawn_point.global_position

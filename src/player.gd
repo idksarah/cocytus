@@ -235,6 +235,18 @@ func player_glide():
 				if not in_wind and not kinda_in_wind:
 					#print('hes multipled')
 					velocity.y = 0.2 * vel_multipler * min(abs(velocity.y) + acceleration, max_y_accel)
+				else:
+					
+					if in_wind:
+						gravity_on = false
+						can_shoot = true
+						start_timer = true
+						#move_timer.stop()
+					elif kinda_in_wind:
+						gravity_on = false
+						can_shoot = true
+						start_timer = true
+					
 				
 			
 # handle enemy and kill box interactions
