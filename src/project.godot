@@ -23,6 +23,7 @@ Singleton="*res://singleton.gd"
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/mode=2
 window/energy_saving/keep_screen_on=false
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
