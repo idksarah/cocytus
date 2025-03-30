@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://pxwqg513xipt" path="res://snow_platform.png" id="2_4uvhm"]
 
 [sub_resource type="Curve2D" id="Curve2D_pe7si"]
+resource_local_to_scene = true
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, -1, -71, 0, 0, 0, 0, -1, -135)
 }

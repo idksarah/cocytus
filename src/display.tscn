@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://mj2ft3ivd1ic"]
+
+[node name="Display" type="CanvasGroup"]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Label2" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

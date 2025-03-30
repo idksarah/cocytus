@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=3 uid="uid://byms8k7l3mdpb"]
+
+[ext_resource type="Script" path="res://hidden_platform_2.gd" id="1_4bju5"]
+[ext_resource type="Texture2D" uid="uid://c8vuaebsc3hbq" path="res://hidden_platform.png" id="2_5sdno"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gq81c"]
+size = Vector2(32, 6.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_givwj"]
+size = Vector2(36, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a8vmj"]
+size = Vector2(35, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qsw2o"]
+size = Vector2(46.3601, 5)
+
+[node name="Hidden_platform" type="Node2D"]
+script = ExtResource("1_4bju5")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(18, -5.75)
+shape = SubResource("RectangleShape2D_gq81c")
+
+[node name="HiddenPlatform" type="Sprite2D" parent="Area2D"]
+position = Vector2(18, -4)
+scale = Vector2(1.125, 1)
+texture = ExtResource("2_5sdno")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/StaticBody2D"]
+position = Vector2(18, -5.5)
+shape = SubResource("RectangleShape2D_givwj")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(257, 110)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(-61.1399, -11)
+shape = SubResource("RectangleShape2D_a8vmj")
+
+[node name="HiddenPlatform2" type="Sprite2D" parent="Area2D2"]
+position = Vector2(-63.6399, -9)
+scale = Vector2(1.46001, 1)
+texture = ExtResource("2_5sdno")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Area2D2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2/StaticBody2D"]
+position = Vector2(-63.8199, -10.5)
+shape = SubResource("RectangleShape2D_qsw2o")
+
+[node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(350, 78)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(-61.1399, -11)
+shape = SubResource("RectangleShape2D_a8vmj")
+
+[node name="HiddenPlatform2" type="Sprite2D" parent="Area2D3"]
+position = Vector2(-60.6399, -9)
+scale = Vector2(1.27251, 1)
+texture = ExtResource("2_5sdno")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Area2D3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3/StaticBody2D"]
+position = Vector2(-60.6399, -10.5)
+shape = SubResource("RectangleShape2D_qsw2o")
+
+[node name="Area2D4" type="Area2D" parent="."]
+position = Vector2(472, 100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4"]
+position = Vector2(-61.1399, -11)
+shape = SubResource("RectangleShape2D_a8vmj")
+
+[node name="HiddenPlatform2" type="Sprite2D" parent="Area2D4"]
+position = Vector2(-60.6399, -9)
+scale = Vector2(1.27251, 1)
+texture = ExtResource("2_5sdno")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Area2D4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D4/StaticBody2D"]
+position = Vector2(-60.6399, -10.5)
+shape = SubResource("RectangleShape2D_qsw2o")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D2" to="." method="_on_area_2d_2_area_entered"]
+[connection signal="area_entered" from="Area2D3" to="." method="_on_area_2d_2_area_entered"]
+[connection signal="area_entered" from="Area2D3" to="." method="_on_area_2d_3_area_entered"]
+[connection signal="area_entered" from="Area2D4" to="." method="_on_area_2d_2_area_entered"]
+[connection signal="area_entered" from="Area2D4" to="." method="_on_area_2d_4_area_entered"]
