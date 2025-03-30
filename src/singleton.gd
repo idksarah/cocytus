@@ -3,6 +3,9 @@ extends Node
 var last_checkpoint
 var camera_position : Vector2
 var camera_restart = false
+var vertical_camera = false
+var left_horizontal_camera = false
+var right_horizontal_camera = false
 
 var collectible_count : int
 var death_count : int

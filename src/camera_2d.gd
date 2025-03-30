@@ -4,7 +4,7 @@ extends Camera2D
 var cur_screen := Vector2(0, 0 )
 
 @onready var timer = $"../Timer2"
-@onready var cam = $"."
+@onready var player = $".."
 
 var waiting_for_timer = false
 var p_zoom = 5
@@ -14,15 +14,27 @@ func _ready():
 	if Singleton.camera_position == null:
 		Singleton.camera_position = get_parent().global_position
 	_update_screen( cur_screen )
-	cam.zoom = Vector2(p_zoom, p_zoom)
+	zoom = Vector2(p_zoom, p_zoom)
 
 func _physics_process(_delta):
-	#print("global", global_position)
 	var parent_screen: Vector2 = (get_parent().global_position / SCREEN_SIZE).floor()
 	if not parent_screen.is_equal_approx( cur_screen ) and timer.is_stopped() and not waiting_for_timer:
 		waiting_for_timer = true
 		timer.start()
 		
+	if Singleton.vertical_camera:
+		print("vert")
+		Singleton.camera_position.y = player.global_position.y +  SCREEN_SIZE.y / 5
+		global_position.y = Singleton.camera_position.y 	
+
+	if Singleton.left_horizontal_camera:
+		print("horz")
+		Singleton.camera_position.x = player.global_position.x -  SCREEN_SIZE.x / 5
+		global_position.x = Singleton.camera_position.x 
+	elif Singleton.right_horizontal_camera:
+		Singleton.camera_position.x = player.global_position.x +  SCREEN_SIZE.x / 5
+		global_position.x = Singleton.camera_position.x 
+	
 	if waiting_for_timer and timer.is_stopped():
 		_update_screen(parent_screen)
 		waiting_for_timer = false
