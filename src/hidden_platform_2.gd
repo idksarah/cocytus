@@ -12,7 +12,7 @@ func _ready() -> void:
 	platform_3_area.visible = false
 	platform_4_area.visible = false
 
-func _on_area_2d_area_entered(_area: Area2D) -> void:
+func _on_area_2d_area_entered(area: Area2D) -> void:
 	platform_2_area.visible = true
 
 func _on_area_2d_2_area_entered(area: Area2D) -> void:

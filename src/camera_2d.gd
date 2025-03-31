@@ -23,12 +23,10 @@ func _physics_process(_delta):
 		timer.start()
 		
 	if Singleton.vertical_camera:
-		print("vert")
 		Singleton.camera_position.y = player.global_position.y +  SCREEN_SIZE.y / 5
 		global_position.y = Singleton.camera_position.y 	
 
 	if Singleton.left_horizontal_camera:
-		print("horz")
 		Singleton.camera_position.x = player.global_position.x -  SCREEN_SIZE.x / 5
 		global_position.x = Singleton.camera_position.x 
 	elif Singleton.right_horizontal_camera:

@@ -9,7 +9,7 @@ size = Vector2(14.5, 41.5)
 script = ExtResource("1_iclql")
 
 [node name="Respawn_point" type="Marker2D" parent="."]
-position = Vector2(0, -21)
+position = Vector2(0, -10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21)
