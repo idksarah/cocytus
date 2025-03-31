@@ -6,7 +6,7 @@ extends Control
 func _ready() -> void:
 	text.visible = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Singleton.fade_in:
 		set_next_animation()
 

@@ -12,15 +12,12 @@ var wait_time = .1
 var deltaXY = Vector2(0,0)
 
 func _ready():
-	var top = top.global_position
-	var bottom = bottom.global_position
-	deltaXY.y = -(top.y - bottom.y)
-	deltaXY.x = (top.x - bottom.x)
+	deltaXY.y = -(top.global_position.y - bottom.global_position.y)
+	deltaXY.x = (top.global_position.x - bottom.global_position.x)
 	deltaXY = deltaXY.normalized()
-	#print(deltaXY)
 	set_process(false)
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if deltaXY.x == 0:
 		player.velocity.y -= 15
 	else:

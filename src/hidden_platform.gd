@@ -8,5 +8,5 @@ func _ready() -> void:
 	pass # Replace with function body.
 	platform_2_area.visible = false
 	
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(_area: Area2D) -> void:
 	platform_2_area.visible = true

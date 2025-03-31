@@ -9,7 +9,7 @@ func _ready() -> void:
 	text.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 	if Singleton.fade_out:
 		set_next_animation()

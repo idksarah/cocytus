@@ -29,7 +29,7 @@ animations = [{
 radius = 61.7319
 height = 231.279
 
-[node name="Player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D"]
 position = Vector2(-3, -4.76837e-07)
 scale = Vector2(0.194389, 0.103771)
 
