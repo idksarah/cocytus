@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var animator = $AnimatedSprite2D
 @onready var move_timer = $Timer
-@onready var bullet = preload("res://Bullet.tscn")
+@onready var bullet = preload("res://bullet.tscn")
 @onready var landing_particles = preload("res://landing_particles.tscn")
 @onready var leap_particles = preload("res://leap_particles.tscn")
 @onready var muzzle = $Muzzle
@@ -164,7 +164,7 @@ func apply_boost():
 		fly_boost_animation = true
 		start_timer = true
 
-func player_shoot(delta):
+func player_shoot(_delta):
 	if Input.is_action_pressed("shoot"):
 		apply_boost()
 		const acceleration = 1.5
