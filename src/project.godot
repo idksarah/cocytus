@@ -13,7 +13,6 @@ config_version=5
 config/name="juice"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
 
 [autoload]
 
@@ -252,6 +251,8 @@ slow={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_s3tc_bptc=true
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.0470588, 0.0235294, 0.105882, 1)
 environment/size/viewport_height=1036
 environment/size/viewport_width=1843

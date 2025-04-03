@@ -1,11 +1,17 @@
-[gd_scene format=3 uid="uid://mj2ft3ivd1ic"]
+[gd_scene load_steps=2 format=3 uid="uid://mj2ft3ivd1ic"]
+
+[ext_resource type="FontFile" uid="uid://b6gg8u758pb23" path="res://Retro Gaming.ttf" id="1_d1wn1"]
 
 [node name="Display" type="CanvasGroup"]
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("1_d1wn1")
+text = "
+"
 
 [node name="Label2" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("1_d1wn1")
